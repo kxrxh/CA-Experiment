@@ -1,2 +1,2 @@
 # CA-Experiment
-Simple model of CPU (RISK) + ASM
+Simple model of CPU (RISC) + ASM

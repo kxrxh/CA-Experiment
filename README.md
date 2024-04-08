@@ -1,2 +1,3 @@
 # CA-Experiment
-Simple model of CPU (RISC) + ASM
+
+asm | risc | harv | mc -> hw | instr | binary -> struct | stream | mem | cstr | prob2 | pipeline

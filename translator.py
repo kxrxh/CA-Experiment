@@ -6,7 +6,7 @@ from encoder import encode_instuction
 from type import Token, TokenType
 
 # Regular expressions for different types of tokens
-REGISTER_REGEX = re.compile(r'\b(r\d+)\b')
+REGISTER_REGEX = re.compile(r'\b(x\d+)\b')
 LABEL_REGEX = re.compile(r'[a-zA-Z_]\w*:')
 NUMBER_REGEX = re.compile(r'\b\d+\b')
 COMMENT_REGEX = re.compile(r'//.*')

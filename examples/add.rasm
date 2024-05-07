@@ -1,0 +1,9 @@
+.data
+    a: 1
+    b: 2
+
+.text
+    load x1, a
+    load x2, b
+    add x1, x1, x2
+    halt

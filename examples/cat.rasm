@@ -1,0 +1,14 @@
+.data
+
+.text
+loop:
+    load x1, in
+    
+    store out, x1
+
+    beq x1, 0, exit
+
+    jmp loop
+
+exit:
+    halt

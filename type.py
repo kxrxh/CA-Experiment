@@ -13,7 +13,7 @@ class TokenType(str, Enum):
 class Token:
     """Class representing a token with its type and value."""
 
-    def __init__(self, type: TokenType, value: str):
+    def __init__(self, type: TokenType, value: str | int):
         self.type = type
         self.value = value
 
@@ -23,5 +23,5 @@ class Token:
     def get_type(self) -> TokenType:
         return self.type
 
-    def get_value(self) -> str:
+    def get_value(self) -> str | int:
         return self.value

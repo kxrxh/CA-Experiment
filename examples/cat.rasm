@@ -1,14 +1,9 @@
-.data
-
 .text
 loop:
     load x1, in
-    
+
     store out, x1
 
-    beq x1, 0, exit
-
-    jmp loop
-
+    bne x1, 0, loop
 exit:
     halt

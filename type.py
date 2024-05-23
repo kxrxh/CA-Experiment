@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Self
 
 
 class TokenType(str, Enum):
@@ -8,8 +9,7 @@ class TokenType(str, Enum):
     NUMBER = 'number'
     INSTRUCTION = 'instruction'
     SECTION = 'section'
-    DATA = 'data'
-
+    STRING = 'string'
 
 class Token:
     """Class representing a token with its type and value."""
@@ -19,7 +19,7 @@ class Token:
         self.value = value
 
     def __str__(self) -> str:
-        return f'{self.type}: {self.value}'
+        return f'{self.type}( {self.value} )'
 
     def get_type(self) -> TokenType:
         return self.type

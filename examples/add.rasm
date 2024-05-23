@@ -1,9 +1,3 @@
-.data
-    string: "Hello, world"
-    str_ptr: string
-
 .text
-    load x1, a
-    load x2, b
-    add x1, x1, x2
+    add r0, r1,r2
     halt

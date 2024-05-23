@@ -1,10 +1,11 @@
 import re
 import sys
 from typing import List, Tuple
+from isa import Opcode
 from type import Token, TokenType
 
 # Regular expressions for different types of tokens
-REGISTER_REGEX = re.compile(r'\b(x\d+)\b')
+REGISTER_REGEX = re.compile(r'\b(r\d+)\b')
 LABEL_REGEX = re.compile(r'[a-zA-Z_]\w*:')
 NUMBER_REGEX = re.compile(r'\b\d+\b')
 COMMENT_REGEX = re.compile(r'//.*')
@@ -43,7 +44,7 @@ def replace_quoted_strings(line: str) -> Tuple[str, dict]:
 
 def process_token(token: str, string_placeholders: dict, tokens: List[Token]):
     if token in string_placeholders:
-        tokens.append(Token(TokenType.DATA, string_placeholders[token]))
+        tokens.append(Token(TokenType.STRING, string_placeholders[token]))
     elif re.match(REGISTER_REGEX, token):
         tokens.append(Token(TokenType.REGISTER, token))
     elif re.match(LABEL_REGEX, token):
@@ -92,6 +93,7 @@ def get_data_section(token_line: List[List[Token]]) -> List[List[Token]]:
                 is_data_section = True
             else:
                 is_data_section = False
+            continue
         if is_data_section:
             data_section_lines.append(line)
 
@@ -107,6 +109,16 @@ def get_all_labels(token_line: List[List[Token]]) -> List[Token]:
     return labels
 
 
+def tokens_to_binary(tokens: List[Token]) -> str:
+    opcode: int = -1
+
+    for token in tokens:
+        if token.get_type() == TokenType.INSTRUCTION:
+            opcode = Opcode.str_to_opcode(token.get_value())
+    if opcode < 0:
+        return ""
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Please provide a filename')
@@ -118,6 +130,7 @@ if __name__ == '__main__':
     tokenized = tokenize(code)
 
     for l in (tokenized):
+        tokens_to_binary(l)
         for t in l:
             print(t)
         print()

@@ -1,29 +1,35 @@
 from enum import Enum
-# | 7      | 6   | 6   |  12    | 1 |
+# Command binary representation:
+# | 6      | 6   | 6   |  12    | 1 |
 # | Opcode | RB  | RS1 | RS2    | S | <--- Math operations
 # | Opcode | RB  | RS1 | OFFSET | S | <--- Branch operations
 # | Opcode | RB  |    Address   | S | <--- Jump operation
-# | Opcode | ------------------ | S | <--- HALT operation
+# | Opcode | ----------------- | S | <--- HALT operation
 
 
 class Opcode(Enum):
-    NOP = ("nop", "0000000")
-    LOAD = ("load", "0000001")
-    STORE = ("store", "0000010")
+    NOP = ("nop", 0)
+    MOVE = ("move", 1)
+    LOAD = ("load", 2)
+    STORE = ("store", 3)
 
-    ADD = ("add", "0000100")
-    SUB = ("sub", "0000101")
-    MUL = ("mul", "0000110")
-    DIV = ("div", "0000111")
 
-    BEQ = ("beq", "0001000")
-    BNE = ("bne", "0001001")
-    BLT = ("blt", "0001010")
-    BGT = ("bgt", "0001011")
+
+    ADD = ("add", 4)
+    SUB = ("sub", 5)
+    MUL = ("mul", 6)
+    DIV = ("div", 7)
+
     
-    JUMP = ("jmp", "0001000")
 
-    HALT = ("hlt", "1100000")
+    BEQ = ("beq", 8)
+    BNE = ("bne", 9)
+    BLT = ("blt", 10)
+    BGT = ("bgt", 11)
+    
+    JUMP = ("jmp", "")
+
+    HALT = ("hlt", 0b111111)
 
     def __init__(self, mnemonic: str, code: str):
         self.mnemonic = mnemonic

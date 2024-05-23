@@ -8,6 +8,7 @@ class TokenType(str, Enum):
     NUMBER = 'number'
     INSTRUCTION = 'instruction'
     SECTION = 'section'
+    DATA = 'data'
 
 
 class Token:

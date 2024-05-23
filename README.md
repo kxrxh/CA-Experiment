@@ -1,3 +1,3 @@
 # CA-Experiment
 
-asm | risc | harv | mc -> hw | instr | binary -> struct | stream | mem | cstr | prob2 | pipeline
+asm | risc | harv | mc | instr | binary | stream | mem | cstr | prob2

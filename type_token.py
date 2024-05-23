@@ -11,6 +11,7 @@ class TokenType(str, Enum):
     SECTION = 'section'
     STRING = 'string'
 
+
 class Token:
     """Class representing a token with its type and value."""
 
@@ -26,3 +27,9 @@ class Token:
 
     def get_value(self) -> str | int:
         return self.value
+
+    def get_string_value(self) -> str:
+        return str(self.value)
+
+    def get_int_value(self) -> int:
+        return int(self.value)

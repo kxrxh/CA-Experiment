@@ -1,9 +1,7 @@
 .text
 loop:
-    load x1, in
-
-    store out, x1
-
-    bne x1, 0, loop
-exit:
+    load r1, in 
+    store r1, out
+    bne r1, r0, loop
+    
     halt

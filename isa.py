@@ -1,17 +1,18 @@
 from enum import Enum
 
 # Constatns:
-INPUT_CELL_ADDRESS = 1
-OUTPUT_CELL_ADDRESS = 2
-
+INPUT_CELL_ADDRESS = 0
+OUTPUT_CELL_ADDRESS = 1
+DATA_MEMORY_BEGIN_ADDRESS = 2
+INSTRUCTION_MEMORY_BEGIN_ADDRESS = 0
 
 # Command binary representation (32 bit)
 # | 7      | 4   |  4  |   16    | Flag|
-# | Opcode | RB  | 0000| ADDRESS | 0/1| -- 0 for read / 1 for write
+# | Opcode | RB  | 0000| Address | 0/1| -- 0 for read / 1 for write
 # | Opcode | RB  | RS1 | RS2     | 0 |<--- Math operations
-# | Opcode | RB  | RS1 | VALUE   | 1 | <--- Math operations
-# | Opcode | RB  | RS1 | LABEL   | 0 | <--- Branch operations
-# | Opcode | 1111|1111 | Address | 1 |<--- Branch(Jump) operation
+# | Opcode | RB  | RS1 | Number  | 1 | <--- Math operations
+# | Opcode | RB  | RS1 | Address | 0 | <--- Branch operations
+# | Opcode | 0000|0000 | Address | 1 |<--- Branch(Jump) operation
 # | Opcode | ------------------- | - | <--- HALT/NOP operation
 
 
@@ -36,21 +37,78 @@ class Opcode(Enum):
     BGT = ("bgt", 10)
     JUMP = ("jmp", 11)
 
-    def __init__(self, mnemonic: str, code: str):
+    def __init__(self, mnemonic: str, code: int):
+        """
+        Initializes an Opcode enum member.
+
+        Parameters:
+            mnemonic (str): The mnemonic string for the opcode.
+            code (int): The binary code for the opcode.
+        """
+
         self.mnemonic = mnemonic
-        self.code = code
+        self.code: int = code
+
+    def get_code(self) -> int:
+        """
+        Returns the binary code of the opcode.
+
+        Returns:
+            int: The binary code of the opcode.
+        """
+        return self.code
+
+    def is_load(self) -> bool:
+        """
+        Checks if the opcode is a load or store operation.
+
+        Returns:
+            bool: True if the opcode is a load or store operation, False otherwise.
+        """
+        return self in [Opcode.LOAD, Opcode.STORE]
+
+    def is_branch(self) -> bool:
+        """
+        Checks if the opcode is a branch operation.
+
+        Returns:
+            bool: True if the opcode is a branch operation, False otherwise.
+        """
+        return self in [Opcode.BEQ, Opcode.BNE, Opcode.BLT, Opcode.BGT]
+
+    def is_math(self) -> bool:
+        """
+        Checks if the opcode is a math operation.
+
+        Returns:
+            bool: True if the opcode is a math operation, False otherwise.
+        """
+        return self in [Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV]
+
+    def is_no_args(self) -> bool:
+        """
+        Checks if the opcode requires no arguments.
+
+        Returns:
+            bool: True if the opcode requires no arguments, False otherwise.
+        """
+        return self in [Opcode.NOP, Opcode.HALT]
 
     @staticmethod
-    def str_to_opcode(value: str) -> 'Opcode':
+    def get_opcode_by_mnemonic(value: str) -> 'Opcode':
+        """
+        Returns the Opcode enum member corresponding to the given mnemonic string.
+
+        Parameters:
+            value (str): The mnemonic string of the opcode.
+
+        Returns:
+            Opcode: The Opcode enum member corresponding to the mnemonic string.
+
+        Raises:
+            ValueError: If no opcode matches the given mnemonic string.
+        """
         for opcode in Opcode:
             if value == opcode.value[0]:
                 return opcode
         raise ValueError(f"No such opcode: {value}")
-
-
-def register_to_binary(index: int):
-    return f"{index:06b}"
-
-
-def integer_to_binary(number: int):
-    return f"{number:16b}"

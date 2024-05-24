@@ -1,0 +1,19 @@
+.data
+    hello: "Hello, world!" "\0"
+    
+.text
+    add r1, r0, hello // Load address to r1
+loop:
+    lw r2, r1 // Load 32 bits (WORD) by address (r1) to r2
+
+    beq r2, r0, exit // Check null char
+
+    sw r2, out
+
+    add r1, r1, #1 // Get address of next memory cell
+
+    jmp loop
+
+exit:
+    halt
+

@@ -1,0 +1,29 @@
+.data
+limit: #4000000
+
+.text
+    add r1, r0, #1 // a = 1
+    add r2, r0, #2 // b = 2
+
+    add r6, r0, limit // limit address
+    
+    lw r4, r6 // r4 = 4_000_000
+    add r5, r0, #0 // sum_even = 0
+loop:
+    bgt r1, r4, exit // if (a > limit) --> end
+
+    // if r1 % 2 != 0 -> next
+    and r6, r1, #1
+    bne r6, r0, next 
+
+next:
+    add r5, r5, r1 // even_sum += a
+    add r6, r1, r2 // next_val = a + b
+    
+    add r1, r0, r2 // a = b
+    add r2, r0, r6 // b = next_val
+
+    jmp loop
+
+exit: 
+    halt

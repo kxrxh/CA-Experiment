@@ -7,13 +7,16 @@ DATA_MEMORY_BEGIN_ADDRESS = 2
 INSTRUCTION_MEMORY_BEGIN_ADDRESS = 0
 
 # Command binary representation (32 bit)
-# | 7      | 4   |  4  |   16    | Flag|
-# | Opcode | RB  | 0000| Address | 0/1| -- 0 for read / 1 for write
-# | Opcode | RB  | RS1 | RS2     | 0 |<--- Math operations
-# | Opcode | RB  | RS1 | Number  | 1 | <--- Math operations
-# | Opcode | RB  | RS1 | Address | 0 | <--- Branch operations
-# | Opcode | 0000|0000 | Address | 1 |<--- Branch(Jump) operation
-# | Opcode | ------------------- | - | <--- HALT/NOP operation
+# | Opcode | RB   | R1 | Address/Number | Flag | Operation                |
+# |--------|------|------------------|----------------|------|--------------------------|
+# | 7 bits | 4 bits | 4 bits         | 16 bits        | 1 bit|           = 32 bit       |
+# | Opcode | RB   | 0000             | Address        | 1    | Write word operation     |
+# | Opcode | RB   | R1               | 16 * [0]       | 0    | Load word operation      |
+# | Opcode | RB   | R1               | R2             | 0    | Math operations (reg-reg)|
+# | Opcode | RB   | R1               | Number         | 1    | Math operations (reg-imm)|
+# | Opcode | RB   | R1               | Address        | 0    | Branch operations        |
+# | Opcode | 0000 | 0000             | Address        | 1    | Branch (Jump) operation  |
+# | Opcode | 0000 | 0000             | 16 * [0]       | 0    | HALT/NOP operation       |
 
 
 class Opcode(Enum):
@@ -21,14 +24,14 @@ class Opcode(Enum):
     HALT = ("halt", 0b1111111)
 
     # Memory ops
-    LOAD = ("load", 1)
-    STORE = ("store", 2)
+    LOAD_WORD = ("lw", 1)
+    WRITE_WORD = ("sw", 2)
 
-    # Math ops
+    # Math/logic ops
     ADD = ("add", 3)
     SUB = ("sub", 4)
     MUL = ("mul", 5)
-    DIV = ("div", 6)
+    AND = ("and", 6)
 
     # Branch ops
     BEQ = ("beq", 7)
@@ -58,14 +61,14 @@ class Opcode(Enum):
         """
         return self.code
 
-    def is_load(self) -> bool:
+    def is_memory(self) -> bool:
         """
-        Checks if the opcode is a load or store operation.
+        Checks if the opcode is a lw or ww operation.
 
         Returns:
             bool: True if the opcode is a load or store operation, False otherwise.
         """
-        return self in [Opcode.LOAD, Opcode.STORE]
+        return self in [Opcode.LOAD_WORD, Opcode.WRITE_WORD]
 
     def is_branch(self) -> bool:
         """
@@ -74,16 +77,16 @@ class Opcode(Enum):
         Returns:
             bool: True if the opcode is a branch operation, False otherwise.
         """
-        return self in [Opcode.BEQ, Opcode.BNE, Opcode.BLT, Opcode.BGT]
+        return self in [Opcode.BEQ, Opcode.BNE, Opcode.BLT, Opcode.BGT, Opcode.JUMP]
 
-    def is_math(self) -> bool:
+    def is_mathlog(self) -> bool:
         """
-        Checks if the opcode is a math operation.
+        Checks if the opcode is a math/logic operation.
 
         Returns:
-            bool: True if the opcode is a math operation, False otherwise.
+            bool: True if the opcode is a math/logic operation, False otherwise.
         """
-        return self in [Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV]
+        return self in [Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.AND]
 
     def is_no_args(self) -> bool:
         """

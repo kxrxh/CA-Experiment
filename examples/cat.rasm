@@ -1,7 +1,10 @@
 .text
 loop:
-    load r1, in 
-    store r1, out
-    bne r1, r0, loop
+
+    add r1, r0, in
+    lw r2, r1
+    sw r2, out
+
+    bne r2, r0, loop
     
     halt

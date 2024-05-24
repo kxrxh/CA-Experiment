@@ -9,7 +9,7 @@
 #         return self.microprograms.get(instruction, [])
 
 class RegisterFile:
-    r0: int
+    r0: int # Zero register (Always 0)
     r1: int
     r2: int
     r3: int
@@ -20,8 +20,6 @@ class RegisterFile:
     r8: int
     r9: int
     r10: int
-    rl: int
-    rs: int
     rd: int
     rip: int
     rpc: int

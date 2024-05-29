@@ -296,8 +296,8 @@ def convert_data_tokens_to_binary(tokens: List[Token]) -> List[str]:
 
 if __name__ == '__main__':
     if len(sys.argv) < 4:
-        print('Please provide a filename')
-        print('Usage: python translator.py <filename> <code_output> <data_output>')
+        print('Please provide a input_file')
+        print('Usage: python translator.py <input_file> <code_output> <data_output>')
         sys.exit(1)
 
     file_name = sys.argv[1]

@@ -1,7 +1,7 @@
 from typing import List
 from alu import Alu
 from control_unit import ControlUnit
-from file_register import RegisterFile
+from register_file import RegisterFile
 from io_controller import IOController
 from machine_exceptions import MachineRuntimeError
 from memory import DataMemory, InstructionMemory

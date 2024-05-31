@@ -2,15 +2,14 @@ from typing import List
 
 
 class IOController:
-    input_buffer: List[int]
-    output_buffer: List[int]
-
-    def __init__(self, input: str):
-        self.input_buffer = list(map(ord, list(input)))  # str to int array
+    def __init__(self, input_str: str):
+        self.input_buffer: List[int] = [ord(char) for char in input_str]
         self.output_buffer: List[int] = []
 
-    def write_to_buffer(self, value: int):
+    def write_to_buffer(self, value: int) -> None:
         self.output_buffer.append(value)
 
     def read_from_buffer(self) -> int:
-        return self.output_buffer.pop(0)
+        if self.output_buffer:
+            return self.output_buffer.pop(0)
+        raise StopIteration("no more values in input buffer")

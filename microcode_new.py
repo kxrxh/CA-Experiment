@@ -1,10 +1,9 @@
 from enum import IntEnum, auto
 from typing import List
 
-from machine_exceptions import MachineRuntimeError
-
 
 class Signal(IntEnum):
+    """Enum class representing signals."""
     HALT = 0
     LATCH_REG = auto()
     LATCH_REG0 = auto()
@@ -85,8 +84,10 @@ class Signal(IntEnum):
     SEL_R_REG14 = auto()
     SEL_R_REG15 = auto()
 
-class MCMemmory:
-    mem: List[List[Signal]] = [
+
+class MicroProgramMemory:
+    """Class representing microprogram memory."""
+    _memory: List[List[Signal]] = [
         # 0: Instruction fetch
         [Signal.SEL_MPC_INC, Signal.LATCH_MPC,
          Signal.SEL_PC_INC, Signal.LATCH_PC],
@@ -155,4 +156,5 @@ class MCMemmory:
 
     @staticmethod
     def get_microprogram(index: int) -> List[Signal]:
-        return MCMemmory.mem[index]
+        """Retrieve microprogram for a given index."""
+        return MicroProgramMemory._memory[index]

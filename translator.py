@@ -2,7 +2,7 @@ import re
 import sys
 from typing import Dict, List, Tuple
 from isa import DATA_MEMORY_BEGIN_ADDRESS, INSTRUCTION_MEMORY_BEGIN_ADDRESS, Opcode, INPUT_CELL_ADDRESS, OUTPUT_CELL_ADDRESS
-from translator_error import InvalidArgumentError, TranslatorError
+from translator_excpetions import InvalidArgumentError, TranslatorError
 from type_token import Token, TokenType
 
 # Regular expressions for different types of tokens

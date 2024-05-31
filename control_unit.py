@@ -2,7 +2,7 @@ from alu import Alu
 from datapath import DataPath
 from isa import Opcode
 from machine_exceptions import MachineRuntimeError
-from microcode_new import MCMemmory, Signal
+from microcode_new import MicroProgramMemory, Signal
 
 
 class ControlUnit:
@@ -89,12 +89,12 @@ class ControlUnit:
             raise MachineRuntimeError('invalid operand index')
 
     def run_microprogram(self):  # noqa: C901
-        program = MCMemmory.get_microprogram(self.mpc)
-        for i, signal in enumerate(program):
+        program = MicroProgramMemory.get_microprogram(self.mpc)
+        for signal in program:
             match signal:
                 case Signal.HALT:
                     raise StopIteration('HALT')
-                case Signal.ALU_ADD, Signal.ALU_SUB, Signal.ALU_MUL, Signal.AND:
+                case Signal.ALU_ADD | Signal.ALU_SUB | Signal.ALU_MUL | Signal.AND:
                     self.alu.sel_alu(signal)
                 case Signal.LATCH_IR:
                     self.datapath.control_unit.ir = self.decode_instruction(
@@ -110,21 +110,21 @@ class ControlUnit:
                     self.datapath.data_memory.latch_write_memory()
                 case Signal.LATCH_READ_MEM:
                     self.datapath.data_memory.latch_read_memory()
-                case Signal.SEL_MPC_INC, Signal.SEL_MPC_ZERO, Signal.SEL_MPC_IR:
+                case Signal.SEL_MPC_INC | Signal.SEL_MPC_ZERO | Signal.SEL_MPC_IR:
                     self.mpc_mux = signal
-                case Signal.SEL_PC_INC, Signal.SEL_PC_ADDR:
+                case Signal.SEL_PC_INC | Signal.SEL_PC_ADDR:
                     self.datapath.pc_mux = signal
-                case Signal.SEL_SRC_ALU, Signal.SEL_SRC_CU, Signal.SEL_SRC_MEM:
+                case Signal.SEL_SRC_ALU | Signal.SEL_SRC_CU | Signal.SEL_SRC_MEM:
                     self.datapath.data_src_mux = signal
                 case Signal.LATCH_REG:
                     index = self.get_operand(0)
                     self.datapath.register_file.latch_reg_n(
                         index, self.datapath.get_register_file_input())
-                case Signal.LATCH_REG0, Signal.LATCH_REG2, Signal.LATCH_REG3, \
-                        Signal.LATCH_REG4, Signal.LATCH_REG5, Signal.LATCH_REG6, \
-                        Signal.LATCH_REG7, Signal.LATCH_REG8, Signal.LATCH_REG9, \
-                        Signal.LATCH_REG10, Signal.LATCH_REG11, Signal.LATCH_REG12, \
-                        Signal.LATCH_REG13, Signal.LATCH_REG14, Signal.LATCH_REG15:
+                case Signal.LATCH_REG0 | Signal.LATCH_REG2 | Signal.LATCH_REG3 | \
+                        Signal.LATCH_REG4 | Signal.LATCH_REG5 | Signal.LATCH_REG6 | \
+                        Signal.LATCH_REG7 | Signal.LATCH_REG8 | Signal.LATCH_REG9 | \
+                        Signal.LATCH_REG10 | Signal.LATCH_REG11 | Signal.LATCH_REG12 | \
+                        Signal.LATCH_REG13 | Signal.LATCH_REG14 | Signal.LATCH_REG15:
                     index = int(signal) - int(Signal.LATCH_REG0)
                     self.datapath.register_file.latch_reg_n(
                         index, self.datapath.get_register_file_input())
@@ -136,15 +136,15 @@ class ControlUnit:
                     index = self.get_operand(2)
                     self.datapath.register_file.sel_right_reg(
                         Signal(int(Signal.LATCH_REG0) + index))
-                case Signal.SEL_R_REG0, Signal.SEL_R_REG2, Signal.SEL_R_REG3, \
-                        Signal.SEL_R_REG4, Signal.SEL_R_REG5, Signal.SEL_R_REG6, \
-                        Signal.SEL_R_REG7, Signal.SEL_R_REG8, Signal.SEL_R_REG9, \
-                        Signal.SEL_R_REG10, Signal.SEL_R_REG11, Signal.SEL_R_REG12, \
-                        Signal.SEL_R_REG13, Signal.SEL_R_REG14, Signal.SEL_R_REG15:
+                case Signal.SEL_R_REG0 | Signal.SEL_R_REG2 | Signal.SEL_R_REG3 | \
+                        Signal.SEL_R_REG4 | Signal.SEL_R_REG5 | Signal.SEL_R_REG6 | \
+                        Signal.SEL_R_REG7 | Signal.SEL_R_REG8 | Signal.SEL_R_REG9 | \
+                        Signal.SEL_R_REG10 | Signal.SEL_R_REG11 | Signal.SEL_R_REG12 | \
+                        Signal.SEL_R_REG13 | Signal.SEL_R_REG14 | Signal.SEL_R_REG15:
                     self.datapath.register_file.sel_right_reg(signal)
-                case Signal.SEL_L_REG0, Signal.SEL_L_REG2, Signal.SEL_L_REG3, \
-                        Signal.SEL_L_REG4, Signal.SEL_L_REG5, Signal.SEL_L_REG6, \
-                        Signal.SEL_L_REG7, Signal.SEL_L_REG8, Signal.SEL_L_REG9, \
-                        Signal.SEL_L_REG10, Signal.SEL_L_REG11, Signal.SEL_L_REG12, \
-                        Signal.SEL_L_REG13, Signal.SEL_L_REG14, Signal.SEL_L_REG15:
+                case Signal.SEL_L_REG0 | Signal.SEL_L_REG2 | Signal.SEL_L_REG3 | \
+                        Signal.SEL_L_REG4 | Signal.SEL_L_REG5 | Signal.SEL_L_REG6 | \
+                        Signal.SEL_L_REG7 | Signal.SEL_L_REG8 | Signal.SEL_L_REG9 | \
+                        Signal.SEL_L_REG10 | Signal.SEL_L_REG11 | Signal.SEL_L_REG12 | \
+                        Signal.SEL_L_REG13 | Signal.SEL_L_REG14 | Signal.SEL_L_REG15:
                     self.datapath.register_file.sel_left_reg(signal)

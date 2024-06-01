@@ -10,7 +10,7 @@ INSTRUCTION_MEMORY_BEGIN_ADDRESS = 0
 # | Opcode | RB   | R1 | Address/Number | Flag | Operation                |
 # |--------|------|------------------|----------------|------|--------------------------|
 # | 7 bits | 4 bits | 4 bits         | 16 bits        | 1 bit|           = 32 bit       |
-# | Opcode | RB   | 0000             | Address        | 1    | Write word operation     |
+# | Opcode | RB   | R1               | 16 * [0]       | 1    | Write word operation     |
 # | Opcode | RB   | R1               | 16 * [0]       | 0    | Load word operation      |
 # | Opcode | RB   | R1               | R2             | 0    | Math operations (reg-reg)|
 # | Opcode | RB   | R1               | Number         | 1    | Math operations (reg-imm)|

@@ -25,5 +25,8 @@ next:
 
     jmp loop
 
+    add r10, r0, out
+    sw r5, r10
+
 exit: 
     halt

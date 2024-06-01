@@ -3,7 +3,7 @@ import sys
 from typing import Dict, List, Tuple
 from isa import DATA_MEMORY_BEGIN_ADDRESS, INSTRUCTION_MEMORY_BEGIN_ADDRESS, Opcode, INPUT_CELL_ADDRESS, OUTPUT_CELL_ADDRESS
 from translator_excpetions import InvalidArgumentError, TranslatorError
-from type_token import Token, TokenType
+from translator_token import Token, TokenType
 
 # Regular expressions for different types of tokens
 REGISTER_REGEX = re.compile(r'\b(r\d+)\b')
@@ -233,13 +233,13 @@ def convert_branch_command_to_binary(opcode: int, tokens: List[Token], text_labe
     return create_binary_command(opcode, rb.get_int_value(), r1.get_int_value(), text_label[r2.get_string_value()], 0)
 
 
-def convert_memory_command_to_binary(opcode: int, tokens: List[Token], data_labels: Dict[str, int]) -> str:
+def convert_memory_command_to_binary(opcode: int, tokens: List[Token]) -> str:
     if len(tokens) != 2:
         raise TranslatorError("Invalid arguments count: expected 2")
 
     # Read destination register argument
-    rb = tokens[0]
-    if rb.get_type() != TokenType.REGISTER:
+    rb_t = tokens[0]
+    if rb_t.get_type() != TokenType.REGISTER:
         raise InvalidArgumentError("rb", ["register"])
 
     # Read address argument
@@ -247,16 +247,17 @@ def convert_memory_command_to_binary(opcode: int, tokens: List[Token], data_labe
     if arg.get_type() not in [TokenType.LABEL, TokenType.REGISTER]:
         raise InvalidArgumentError("arg", ["label", "register"])
 
-    r1 = r2 = 0
-
+    rb = rb_t.get_int_value() # Data
+    r1 = arg.get_int_value() # Address
+    r2 = 0
     # Set R1 if opcode is LOAD_WORD, otherwise set R2
     if Opcode.LOAD_WORD.code == opcode:
-        r1 = arg.get_int_value()
         flag = 0
     else:
-        r2 = data_labels[arg.get_string_value()]
+        r2 = rb
+        rb = 0
         flag = 1
-    return create_binary_command(opcode, rb.get_int_value(), r1, r2, flag)
+    return create_binary_command(opcode, rb, r1, r2, flag)
 
 
 def convert_no_args_command_to_binary(opcode: int) -> str:
@@ -277,7 +278,7 @@ def convert_tokens_to_binary(tokens: List[Token], data_labels: Dict[str, int], t
             elif opcode.is_no_args():
                 return convert_no_args_command_to_binary(opcode.get_code())
             elif opcode.is_memory():
-                return convert_memory_command_to_binary(opcode.get_code(), tokens[i+1:], data_labels)
+                return convert_memory_command_to_binary(opcode.get_code(), tokens[i+1:])
     return ""
 
 
@@ -325,6 +326,6 @@ if __name__ == '__main__':
     for token_line in get_data_section(tokenized):
         converted = convert_data_tokens_to_binary(token_line)
         for line in converted:
-            print(line, chr(int(line, 2)))
+            # print(line, chr(int(line, 2)))
             data_output.append(line)
     write_file(file_data_output, data_output)

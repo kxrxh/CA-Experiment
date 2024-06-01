@@ -1,6 +1,6 @@
 
 from register_file import RegisterFile
-from microcode_new import Signal
+from microcode import Signal
 
 
 class Alu:
@@ -17,7 +17,7 @@ class Alu:
 
     def sel_alu(self, signal: Signal):
         self.alu_signal = signal
-        self.alu_result = self.get_alu_by_signal(self.alu_signal)
+        self.get_alu_by_signal(self.alu_signal)
 
     def get_alu_by_signal(self, signal: Signal):
         match signal:
@@ -26,7 +26,7 @@ class Alu:
             case Signal.ALU_MUL: self.alu_result = self.reg_file.left_out * self.reg_file.right_out
             case Signal.ALU_AND: self.alu_result = self.reg_file.left_out & self.reg_file.right_out
         self.update_flags(self.alu_result)
-        return 0
+    
 
     def update_flags(self, value: int):
         if value == 0:
@@ -34,4 +34,4 @@ class Alu:
         elif value < 0:
             self.zero_neg = 2  # '10'
         else:
-            self.zero_neg = 0  # '00'
+            self.zero_neg = 0  # '00' 

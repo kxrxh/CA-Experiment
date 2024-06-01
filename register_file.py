@@ -1,5 +1,5 @@
 from machine_exceptions import InvalidRegisterIndex
-from microcode_new import Signal
+from microcode import Signal
 
 
 class RegisterFile:

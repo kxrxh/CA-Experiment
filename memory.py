@@ -1,3 +1,5 @@
+from logging import log
+import logging
 from typing import List
 from register_file import RegisterFile
 from io_controller import IOController
@@ -11,6 +13,7 @@ class DataMemory:
         self.io_controller = io_controller
 
     def read_cell(self, index: int) -> int:
+        logging.info(f"Reading cell {index}")
         if index == 0:
             return self.io_controller.read_from_buffer()
         elif index == 1:
@@ -39,4 +42,4 @@ class InstructionMemory:
         self.cells = cells
 
     def read_cell(self, index: int) -> str:
-        return self.cells[index]
+        return self.cells[index - 1]

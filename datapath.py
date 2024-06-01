@@ -1,11 +1,10 @@
 from typing import List
 from alu import Alu
-from control_unit import ControlUnit
 from register_file import RegisterFile
 from io_controller import IOController
 from machine_exceptions import MachineRuntimeError
 from memory import DataMemory, InstructionMemory
-from microcode_new import Signal
+from microcode import Signal
 
 
 class DataPath:
@@ -14,13 +13,14 @@ class DataPath:
     register_file: RegisterFile
     alu: Alu
 
-    control_unit: ControlUnit
     io_controller: IOController
-
     pc_mux: Signal
     pc: int
 
     data_src_mux: Signal
+
+    cu_address_out: int
+    cu_data_out: int
 
     def __init__(self, instructions: List[str], data: List[int], input: str):
         self.pc = 0
@@ -28,8 +28,6 @@ class DataPath:
         self.register_file = RegisterFile()
         # Connect ALU to register file
         self.alu = Alu(self.register_file)
-        # Connect control unit to register file and dapath
-        self.control_unit = ControlUnit(self.alu, self)
 
         self.io_controller = IOController(input)
         # Connect Datamemory to register file and io controller
@@ -38,13 +36,18 @@ class DataPath:
 
         self.instruction_memory = InstructionMemory(instructions)
 
+        self.cu_address_out = 0
+        self.cu_data_out = 0
+        self.data_src = 0
+        self.pc_mux = Signal.SEL_PC_INC
+
     def sel_pc(self, value: Signal):
         self.pc_mux = value
 
     def latch_pc(self):
         match self.pc_mux:
             case Signal.SEL_PC_ADDR:
-                self.pc = self.control_unit.address_out
+                self.pc = self.cu_address_out
             case Signal.SEL_PC_INC:
                 self.pc += 1
             case _:
@@ -60,7 +63,7 @@ class DataPath:
             case Signal.SEL_SRC_ALU:
                 return self.alu.alu_result
             case Signal.SEL_SRC_CU:
-                return self.control_unit.data_out
+                return self.cu_data_out
             case _:
                 raise MachineRuntimeError(
                     f"invalid signal for data source mux:  {self.data_src_mux}")

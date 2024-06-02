@@ -25,8 +25,7 @@ def main(compiled_code: str, compiled_data: str, input_file: str | None):
 
 
 def run_simulation(instructions: list[str], data: list[int], input_str: str | None):
-    datapath = DataPath(instructions, data,
-                        "" if input_str is None else input_str)
+    datapath = DataPath(instructions, data, "" if input_str is None else input_str)
     control_unit = ControlUnit(datapath.alu, datapath)
     instructions_counter = 0
     mc_counter = 0

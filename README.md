@@ -242,6 +242,28 @@
 
 ![datapath](img/datapath.png)
 
+Реализован в классе [DataPath](datapath.py#L13)
+
+Основные элементы:
+
+- ALU
+- Register File
+- Data Memory
+- Instruction Memory
+- IO Controller
+
+Сигналы:
+
+- latch_register - защелкивание значение `N` регистра
+- operation - сигнал операции `ALU`
+- latch_pc - защелкивание `PC`
+- write_sig - защелкивание ячейки памяти
+- read_sig - выставление значения ячейки памяти на шину данных
+
+Флаги:  
+
+- NZ - 2 битовый флаг. 1 бит отвечает за `N`, 2 бит за `Z`
+
 ### Register File
 
 ![register file](img/register_file.png)
@@ -251,6 +273,28 @@
 ### Control Unit
 
 ![control unit](img/control_unit.png)
+
+`Control Unit` реализован в классе [ControlUnit](control_unit.py#L8)
+
+Выполнение микроинструкций просисходит в методе [execute_signal](control_unit.py#L152)
+
+Цикл осуществляется в функции [run_simulation](machine.py#L27). В нем выполняется декодирование и выполнение инструкций
+
+Сигналы `sel_twice_inc_if_n` и `sel_twice_inc_if_z` отвечают за изменение размера инкрмента при наличии флагов `N`, `Z`
+
+Сигнал `sel_one_inc` устанавливает шаг инкремента равный `1`
+
+Присутствует 24 битный регистр для хранения операндов инструкции для последующей работы с ними
+
+`Decoder` определяет `opcode` для микропрограммы и отделяет операнды
+
+Для журнала состояний процессора используется стандартный модуль `logging`.
+
+Остановка моделирования возможна при:
+
+- превышении лимита тиков
+- исключении `StopIteration` - если выполнена инструкция `HALT`
+- обращении к пустому буферу `in`
 
 ## Тестирование
 
@@ -330,7 +374,17 @@ jobs:
 - `pytest` - утилита для запуска тестов
 - `ruff` - утилита для форматирования и проверки стиля кодирования
 
-Пример журнала работы на примере программы [add](example/add.rasm)
+Пример журнала работы на примере программы [add](examples/add.rasm)
+
+Instruction fetch и выполнение микропрограммы `6: ADD` (2 тика)
+
+```text
+ DEBUG   machine:run_simulation Machine state: IR(0), MPC(1), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(1), MC_COUNTER(5)
+ DEBUG   machine:run_simulation Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(2), MC_COUNTER(9)
+ DEBUG   machine:run_simulation Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(3), MC_COUNTER(11)
+ DEBUG   machine:run_simulation Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(4), MC_COUNTER(15)
+ ...
+```
 
 Журнал работы:
 

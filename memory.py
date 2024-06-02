@@ -24,17 +24,20 @@ class DataMemory:
         self.io_controller = io_controller
 
     def read_cell(self, index: int) -> int:
-        logging.info(f"Reading cell {index}")
         if index == 0:
+            logging.debug("Reading from 'in' buffer")
             return self.io_controller.read_from_buffer()
         elif index == 1:
+            logging.error("Unable to read from write-only cell")
             raise MachineRuntimeError("Unable to read from write-only cell")
         return self.cells[index]
 
     def write_cell(self, index: int, value: int) -> None:
         if index == 0:
+            logging.error("Unable to write to read-only cell")
             raise MachineRuntimeError("Unable to write to read-only cell")
         elif index == 1:
+            logging.debug("Writing to 'out' buffer")
             self.io_controller.write_to_buffer(value)
         self.cells[index] = value
 

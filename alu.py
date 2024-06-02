@@ -11,11 +11,11 @@ class Alu:
     alu_signal: Signal
     alu_result: int
 
-    zero_neg: int
+    neg_zero: int
 
     def __init__(self, reg_file: RegisterFile):
         self.result = 0
-        self.zero_neg = 0  # 2 bits 'NZ'
+        self.neg_zero = 0  # 2 bits 'NZ'
         self.reg_file = reg_file
 
     def sel_alu(self, signal: Signal):
@@ -39,8 +39,8 @@ class Alu:
 
     def update_flags(self, value: int):
         if value == 0:
-            self.zero_neg = 1  # '01'
+            self.neg_zero = 1  # '01'
         elif value < 0:
-            self.zero_neg = 2  # '10'
+            self.neg_zero = 2  # '10'
         else:
-            self.zero_neg = 0  # '00'
+            self.neg_zero = 0  # '00'

@@ -146,7 +146,6 @@ class ControlUnit:
             int: The number of mc executed.
         """
         program = MicroProgramMemory.get_microprogram(self.mpc)
-        print(f"Running microprogram: {self.mpc}: {program}")
         for signal in program:
             self._execute_signal(signal)
         self.tick()
@@ -247,13 +246,13 @@ class ControlUnit:
             Signal(int(Signal.SEL_R_REG0) + index))
 
     def twice_inc_if_z(self):
-        if self.alu.zero_neg == 0b01:
+        if self.alu.neg_zero == 0b01:
             self.inc_value = 2
         else:
             self.inc_value = 1
 
     def twice_inc_if_n(self):
-        if self.alu.zero_neg == 0b10:
+        if self.alu.neg_zero == 0b10:
             self.inc_value = 2
         else:
             self.inc_value = 1

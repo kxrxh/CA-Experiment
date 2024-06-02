@@ -1,0 +1,451 @@
+in_source: |-
+  .text
+  loop:
+      add r1, r0, in
+      add r3, r0, out
+
+      lw r2, r1
+      sw r2, r3
+
+      bne r2, r0, loop
+          
+      halt
+
+in_stdin: |-
+  Hello, world!
+out_code: |-
+  00000110001000000000000000000001
+  00000110011000000000000000000011
+  00000010010000100000000000000000
+  00000100000001100000000000000101
+  00010000010000000000000000000000
+  11111110000000000000000000000000
+out_data: |-
+
+out_stdout: |-
+  {'in': 0, 'out': 1}
+  {'loop': 0}
+  -- Text section --
+  00000110001000000000000000000001 add r1, r0, in
+  00000110011000000000000000000011 add r3, r0, out
+  00000010010000100000000000000000 lw r2, r1
+  00000100000001100000000000000101 sw r2, r3
+  00010000010000000000000000000000 bne r2, r0, loop
+  11111110000000000000000000000000 halt
+  -- Data section --
+out_log: |-
+  DEBUG:root:Machine state: IR(0), MPC(1), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(1), MC_COUNTER(5)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(2), MC_COUNTER(9)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(3), MC_COUNTER(11)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(4), MC_COUNTER(15)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(5), MC_COUNTER(22)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(6), MC_COUNTER(27)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(7), MC_COUNTER(31)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(8), MC_COUNTER(33)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(9), MC_COUNTER(37)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(10), MC_COUNTER(44)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(11), MC_COUNTER(49)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(12), MC_COUNTER(53)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(13), MC_COUNTER(55)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 72
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(14), MC_COUNTER(60)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(15), MC_COUNTER(64)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(16), MC_COUNTER(69)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(17), MC_COUNTER(73)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(18), MC_COUNTER(75)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 72
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(19), MC_COUNTER(80)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(20), MC_COUNTER(85)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(21), MC_COUNTER(89)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(22), MC_COUNTER(91)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(23), MC_COUNTER(96)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(24), MC_COUNTER(99)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(25), MC_COUNTER(103)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(26), MC_COUNTER(108)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(27), MC_COUNTER(112)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(28), MC_COUNTER(114)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(29), MC_COUNTER(118)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(30), MC_COUNTER(125)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(31), MC_COUNTER(130)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(32), MC_COUNTER(134)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(33), MC_COUNTER(136)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(34), MC_COUNTER(140)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(35), MC_COUNTER(147)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(36), MC_COUNTER(152)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(37), MC_COUNTER(156)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(38), MC_COUNTER(158)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 101
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 72, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(39), MC_COUNTER(163)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(40), MC_COUNTER(167)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(41), MC_COUNTER(172)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(42), MC_COUNTER(176)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(43), MC_COUNTER(178)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 101
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(44), MC_COUNTER(183)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(45), MC_COUNTER(188)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(46), MC_COUNTER(192)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(47), MC_COUNTER(194)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(48), MC_COUNTER(199)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(49), MC_COUNTER(202)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(50), MC_COUNTER(206)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(51), MC_COUNTER(211)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(52), MC_COUNTER(215)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(53), MC_COUNTER(217)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(54), MC_COUNTER(221)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(55), MC_COUNTER(228)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(56), MC_COUNTER(233)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(57), MC_COUNTER(237)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(58), MC_COUNTER(239)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(59), MC_COUNTER(243)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(60), MC_COUNTER(250)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(61), MC_COUNTER(255)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(62), MC_COUNTER(259)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(63), MC_COUNTER(261)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 108
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 101, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(64), MC_COUNTER(266)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(65), MC_COUNTER(270)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(66), MC_COUNTER(275)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(67), MC_COUNTER(279)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(68), MC_COUNTER(281)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 108
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(69), MC_COUNTER(286)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(70), MC_COUNTER(291)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(71), MC_COUNTER(295)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(72), MC_COUNTER(297)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(73), MC_COUNTER(302)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(74), MC_COUNTER(305)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(75), MC_COUNTER(309)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(76), MC_COUNTER(314)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(77), MC_COUNTER(318)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(78), MC_COUNTER(320)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(79), MC_COUNTER(324)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(80), MC_COUNTER(331)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(81), MC_COUNTER(336)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(82), MC_COUNTER(340)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(83), MC_COUNTER(342)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(84), MC_COUNTER(346)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(85), MC_COUNTER(353)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(86), MC_COUNTER(358)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(87), MC_COUNTER(362)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(88), MC_COUNTER(364)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 108
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(89), MC_COUNTER(369)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(90), MC_COUNTER(373)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(91), MC_COUNTER(378)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(92), MC_COUNTER(382)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(93), MC_COUNTER(384)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 108
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(94), MC_COUNTER(389)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(95), MC_COUNTER(394)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(96), MC_COUNTER(398)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(97), MC_COUNTER(400)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(98), MC_COUNTER(405)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(99), MC_COUNTER(408)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(100), MC_COUNTER(412)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(101), MC_COUNTER(417)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(102), MC_COUNTER(421)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(103), MC_COUNTER(423)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(104), MC_COUNTER(427)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(105), MC_COUNTER(434)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(106), MC_COUNTER(439)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(107), MC_COUNTER(443)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(108), MC_COUNTER(445)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(109), MC_COUNTER(449)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(110), MC_COUNTER(456)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(111), MC_COUNTER(461)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(112), MC_COUNTER(465)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(113), MC_COUNTER(467)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 111
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(114), MC_COUNTER(472)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(115), MC_COUNTER(476)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(116), MC_COUNTER(481)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(117), MC_COUNTER(485)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(118), MC_COUNTER(487)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 111
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(119), MC_COUNTER(492)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(120), MC_COUNTER(497)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(121), MC_COUNTER(501)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(122), MC_COUNTER(503)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(123), MC_COUNTER(508)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(124), MC_COUNTER(511)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(125), MC_COUNTER(515)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(126), MC_COUNTER(520)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(127), MC_COUNTER(524)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(128), MC_COUNTER(526)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(129), MC_COUNTER(530)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(130), MC_COUNTER(537)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(131), MC_COUNTER(542)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(132), MC_COUNTER(546)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(133), MC_COUNTER(548)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(134), MC_COUNTER(552)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(135), MC_COUNTER(559)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(136), MC_COUNTER(564)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(137), MC_COUNTER(568)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(138), MC_COUNTER(570)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 44
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(139), MC_COUNTER(575)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(140), MC_COUNTER(579)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(141), MC_COUNTER(584)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(142), MC_COUNTER(588)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(143), MC_COUNTER(590)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 44
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(144), MC_COUNTER(595)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(145), MC_COUNTER(600)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(146), MC_COUNTER(604)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(147), MC_COUNTER(606)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(148), MC_COUNTER(611)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(149), MC_COUNTER(614)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(150), MC_COUNTER(618)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(151), MC_COUNTER(623)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(152), MC_COUNTER(627)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(153), MC_COUNTER(629)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(154), MC_COUNTER(633)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(155), MC_COUNTER(640)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(156), MC_COUNTER(645)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(157), MC_COUNTER(649)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(158), MC_COUNTER(651)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(159), MC_COUNTER(655)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(160), MC_COUNTER(662)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(161), MC_COUNTER(667)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(162), MC_COUNTER(671)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(163), MC_COUNTER(673)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 32
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 44, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(164), MC_COUNTER(678)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(165), MC_COUNTER(682)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(166), MC_COUNTER(687)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(167), MC_COUNTER(691)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(168), MC_COUNTER(693)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 32
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(169), MC_COUNTER(698)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(170), MC_COUNTER(703)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(171), MC_COUNTER(707)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(172), MC_COUNTER(709)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(173), MC_COUNTER(714)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(174), MC_COUNTER(717)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(175), MC_COUNTER(721)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(176), MC_COUNTER(726)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(177), MC_COUNTER(730)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(178), MC_COUNTER(732)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(179), MC_COUNTER(736)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(180), MC_COUNTER(743)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(181), MC_COUNTER(748)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(182), MC_COUNTER(752)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(183), MC_COUNTER(754)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(184), MC_COUNTER(758)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(185), MC_COUNTER(765)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(186), MC_COUNTER(770)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(187), MC_COUNTER(774)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(188), MC_COUNTER(776)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 119
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 32, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(189), MC_COUNTER(781)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(190), MC_COUNTER(785)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(191), MC_COUNTER(790)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(192), MC_COUNTER(794)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(193), MC_COUNTER(796)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 119
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(194), MC_COUNTER(801)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(195), MC_COUNTER(806)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(196), MC_COUNTER(810)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(197), MC_COUNTER(812)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(198), MC_COUNTER(817)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(199), MC_COUNTER(820)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(200), MC_COUNTER(824)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(201), MC_COUNTER(829)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(202), MC_COUNTER(833)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(203), MC_COUNTER(835)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(204), MC_COUNTER(839)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(205), MC_COUNTER(846)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(206), MC_COUNTER(851)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(207), MC_COUNTER(855)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(208), MC_COUNTER(857)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(209), MC_COUNTER(861)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(210), MC_COUNTER(868)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(211), MC_COUNTER(873)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(212), MC_COUNTER(877)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(213), MC_COUNTER(879)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 111
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 119, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(214), MC_COUNTER(884)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(215), MC_COUNTER(888)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(216), MC_COUNTER(893)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(217), MC_COUNTER(897)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(218), MC_COUNTER(899)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 111
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(219), MC_COUNTER(904)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(220), MC_COUNTER(909)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(221), MC_COUNTER(913)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(222), MC_COUNTER(915)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(223), MC_COUNTER(920)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(224), MC_COUNTER(923)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(225), MC_COUNTER(927)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(226), MC_COUNTER(932)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(227), MC_COUNTER(936)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(228), MC_COUNTER(938)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(229), MC_COUNTER(942)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(230), MC_COUNTER(949)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(231), MC_COUNTER(954)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(232), MC_COUNTER(958)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(233), MC_COUNTER(960)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(234), MC_COUNTER(964)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(235), MC_COUNTER(971)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(236), MC_COUNTER(976)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(237), MC_COUNTER(980)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(238), MC_COUNTER(982)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 114
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 111, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(239), MC_COUNTER(987)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(240), MC_COUNTER(991)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(241), MC_COUNTER(996)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(242), MC_COUNTER(1000)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(243), MC_COUNTER(1002)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 114
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(244), MC_COUNTER(1007)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(245), MC_COUNTER(1012)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(246), MC_COUNTER(1016)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(247), MC_COUNTER(1018)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(248), MC_COUNTER(1023)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(249), MC_COUNTER(1026)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(250), MC_COUNTER(1030)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(251), MC_COUNTER(1035)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(252), MC_COUNTER(1039)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(253), MC_COUNTER(1041)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(254), MC_COUNTER(1045)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(255), MC_COUNTER(1052)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(256), MC_COUNTER(1057)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(257), MC_COUNTER(1061)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(258), MC_COUNTER(1063)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(259), MC_COUNTER(1067)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(260), MC_COUNTER(1074)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(261), MC_COUNTER(1079)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(262), MC_COUNTER(1083)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(263), MC_COUNTER(1085)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 108
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 114, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(264), MC_COUNTER(1090)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(265), MC_COUNTER(1094)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(266), MC_COUNTER(1099)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(267), MC_COUNTER(1103)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(268), MC_COUNTER(1105)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 108
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(269), MC_COUNTER(1110)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(270), MC_COUNTER(1115)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(271), MC_COUNTER(1119)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(272), MC_COUNTER(1121)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(273), MC_COUNTER(1126)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(274), MC_COUNTER(1129)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(275), MC_COUNTER(1133)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(276), MC_COUNTER(1138)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(277), MC_COUNTER(1142)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(278), MC_COUNTER(1144)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(279), MC_COUNTER(1148)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(280), MC_COUNTER(1155)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(281), MC_COUNTER(1160)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(282), MC_COUNTER(1164)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(283), MC_COUNTER(1166)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(284), MC_COUNTER(1170)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(285), MC_COUNTER(1177)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(286), MC_COUNTER(1182)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(287), MC_COUNTER(1186)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(288), MC_COUNTER(1188)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 100
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 108, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(289), MC_COUNTER(1193)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(290), MC_COUNTER(1197)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(291), MC_COUNTER(1202)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(292), MC_COUNTER(1206)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(293), MC_COUNTER(1208)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 100
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(294), MC_COUNTER(1213)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(295), MC_COUNTER(1218)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(296), MC_COUNTER(1222)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(297), MC_COUNTER(1224)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(298), MC_COUNTER(1229)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(299), MC_COUNTER(1232)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(300), MC_COUNTER(1236)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(301), MC_COUNTER(1241)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(302), MC_COUNTER(1245)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(303), MC_COUNTER(1247)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(304), MC_COUNTER(1251)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(305), MC_COUNTER(1258)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(306), MC_COUNTER(1263)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(307), MC_COUNTER(1267)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(308), MC_COUNTER(1269)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(309), MC_COUNTER(1273)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(310), MC_COUNTER(1280)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(311), MC_COUNTER(1285)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(312), MC_COUNTER(1289)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(313), MC_COUNTER(1291)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 33
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(314), MC_COUNTER(1296)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(315), MC_COUNTER(1300)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(316), MC_COUNTER(1305)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(317), MC_COUNTER(1309)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(318), MC_COUNTER(1311)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 33
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(319), MC_COUNTER(1316)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(320), MC_COUNTER(1321)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(321), MC_COUNTER(1325)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(322), MC_COUNTER(1327)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(323), MC_COUNTER(1332)
+  DEBUG:root:Machine state: IR(24), MPC(26), PC(5), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(324), MC_COUNTER(1335)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(0), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(325), MC_COUNTER(1339)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(1), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(326), MC_COUNTER(1344)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(327), MC_COUNTER(1348)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(328), MC_COUNTER(1350)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(329), MC_COUNTER(1354)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(330), MC_COUNTER(1361)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(331), MC_COUNTER(1366)
+  DEBUG:root:Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(332), MC_COUNTER(1370)
+  DEBUG:root:Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(1), TICKS(333), MC_COUNTER(1372)
+  DEBUG:root:Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(334), MC_COUNTER(1376)
+  DEBUG:root:Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(335), MC_COUNTER(1383)
+  DEBUG:root:Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(336), MC_COUNTER(1388)
+  DEBUG:root:Machine state: IR(17), MPC(2), PC(3), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(337), MC_COUNTER(1392)
+  DEBUG:root:Machine state: IR(17), MPC(17), PC(3), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(338), MC_COUNTER(1394)
+  DEBUG:root:Reading from 'in' buffer
+  DEBUG:root:Reading value from input buffer: 0
+  DEBUG:root:Machine state: IR(17), MPC(18), PC(3), REGISTERS([0, 0, 33, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(339), MC_COUNTER(1399)
+  DEBUG:root:Machine state: IR(17), MPC(0), PC(3), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(340), MC_COUNTER(1403)
+  DEBUG:root:Machine state: IR(17), MPC(1), PC(4), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(341), MC_COUNTER(1408)
+  DEBUG:root:Machine state: IR(19), MPC(2), PC(4), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(342), MC_COUNTER(1412)
+  DEBUG:root:Machine state: IR(19), MPC(19), PC(4), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(343), MC_COUNTER(1414)
+  DEBUG:root:Writing to 'out' buffer
+  DEBUG:root:Adding value to output buffer: 0
+  DEBUG:root:Machine state: IR(19), MPC(0), PC(4), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(344), MC_COUNTER(1419)
+  DEBUG:root:Machine state: IR(19), MPC(1), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(345), MC_COUNTER(1424)
+  DEBUG:root:Machine state: IR(24), MPC(2), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(346), MC_COUNTER(1428)
+  DEBUG:root:Machine state: IR(24), MPC(24), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(347), MC_COUNTER(1430)
+  DEBUG:root:Machine state: IR(24), MPC(25), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(348), MC_COUNTER(1435)
+  DEBUG:root:Machine state: IR(24), MPC(27), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(349), MC_COUNTER(1438)
+  DEBUG:root:Machine state: IR(24), MPC(0), PC(5), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(350), MC_COUNTER(1440)
+  DEBUG:root:Machine state: IR(24), MPC(1), PC(6), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(351), MC_COUNTER(1445)
+  DEBUG:root:Machine state: IR(4), MPC(2), PC(6), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(352), MC_COUNTER(1449)
+  DEBUG:root:Machine state: IR(4), MPC(4), PC(6), REGISTERS([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(1), TICKS(353), MC_COUNTER(1451)
+  DEBUG:root:StopIteration reason:  HALT
+  DEBUG:root:Tick counter:  353
+  DEBUG:root:Instructions executed: 71
+  DEBUG:root:Microprogram counter: 1451
+  DEBUG:root:Output(int): [72, 101, 108, 108, 111, 44, 32, 119, 111, 114, 108, 100, 33, 0]
+  DEBUG:root:Output(str): ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!', '\x00']

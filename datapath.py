@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from alu import Alu
 from register_file import RegisterFile
@@ -51,7 +52,9 @@ class DataPath:
             case Signal.SEL_PC_INC:
                 self.pc += 1
             case _:
-                raise MachineRuntimeError(f"invalid mux value  {self.pc_mux}")
+                logging.error(f"invalid pc mux signal:  {self.pc_mux}")
+                raise MachineRuntimeError(
+                    f"invalid pc mux signal:  {self.pc_mux}")
 
     def sel_data_src(self, value: Signal):
         self.data_src_mux = value
@@ -65,5 +68,7 @@ class DataPath:
             case Signal.SEL_SRC_CU:
                 return self.cu_data_out
             case _:
+                logging.error(f"invalid signal for data source mux:  {
+                              self.data_src_mux}")
                 raise MachineRuntimeError(
                     f"invalid signal for data source mux:  {self.data_src_mux}")

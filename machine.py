@@ -5,7 +5,7 @@ from typing import List
 from control_unit import ControlUnit
 from datapath import DataPath
 
-TICK_LIMIT = 7000000
+TICK_LIMIT = 7000
 
 
 def read_file(file_name: str) -> List[str]:
@@ -25,27 +25,27 @@ def run_simulation(instructions: List[str], data: List[int], input_str: str | No
                         "" if input_str is None else input_str)
     control_unit = ControlUnit(datapath.alu, datapath)
     instructions_counter = 0
-    mc_counter  = 0
+    mc_counter = 0
     try:
         while control_unit.tick_counter < TICK_LIMIT:
             if control_unit.mpc == 0:
                 instructions_counter += 1
             mc_counter += control_unit.run_microprogram()
+            logging.debug(f"Machine state: IR({control_unit.ir}), MPC({control_unit.mpc}), PC({datapath.pc}), REGISTERS({
+                          datapath.register_file.registers}), NZ({datapath.alu.neg_zero}), TICKS({control_unit.tick_counter}), MC_COUNTER({mc_counter})")
     except Exception as e:
-        print(f"STOP:  {e}")
-    print(f"Tick counter:  {control_unit.tick_counter}")
-    print(f"Instructions executed: {instructions_counter}")
-    print(f"Microprogram counter: {mc_counter}")
-    print(f"Output(int): {datapath.io_controller.output_buffer}")
-    print(f"Output(str): {list(map(chr, datapath.io_controller.output_buffer))}")
+        logging.debug(f"StopIteration reason:  {e}")
+    logging.debug(f"Tick counter:  {control_unit.tick_counter}")
+    logging.debug(f"Instructions executed: {instructions_counter}")
+    logging.debug(f"Microprogram counter: {mc_counter}")
+    logging.debug(f"Output(int): {datapath.io_controller.output_buffer}")
+    logging.debug(f"Output(str): {
+        list(map(lambda x: chr(x) if x in range(0x110000) else "NONE", datapath.io_controller.output_buffer))}")
 
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.DEBUG)
-    if len(sys.argv) < 3:
-        print("Not enought arguments!")
-        print("Usage: python machine.py <compiled_code> <compiled_data> OP(<input_file>)")
-        exit(1)
+    assert len(sys.argv) >= 3, "Not enought arguments! Usage: python machine.py <compiled_code> <compiled_data> OP(<input_file>)"
 
     prepare(sys.argv[1], sys.argv[2], None if len(
         sys.argv) < 4 else sys.argv[3])

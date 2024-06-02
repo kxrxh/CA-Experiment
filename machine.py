@@ -1,71 +1,51 @@
-class MicroProgram:
-    def __init__(self):
-        self.microprograms = {}
+import logging
+import sys
+from typing import List
 
-    def add_microprogram(self, instruction, microprogram):
-        self.microprograms[instruction] = microprogram
+from control_unit import ControlUnit
+from datapath import DataPath
 
-    def get_microprogram(self, instruction):
-        return self.microprograms.get(instruction, [])
-
-class Alu:
-    def __init__(self):
-        self.zero_flag = False
-        self.negative_flag = False
-
-    def perform(self, in_left: int, in_right: int, op_code) -> int:
-
-        return 0
-
-    def update_flags(self, value: int):
-        if value == 0:
-            self.zero_flag = True
-            return
-
-        self.zero_flag = False
-
-        if value < 0:
-            self.negative_flag = True
-        else:
-            self.negative_flag = False
+TICK_LIMIT = 7000000
 
 
-class ControlUnit:
-    def __init__(self):
-        self.op1 = 0
-        self.op2 = 0
-        self.tmp = 0
-
-        self.pc = 0
-
-    def execute_micro_instruction(self, micro_instruction: str):
-        if micro_instruction == "fetch":
-            self.pc += 1
-        elif micro_instruction == "decode":
-            self.pc += 1
-        elif micro_instruction == "load_op1":
-            self.pc += 1
-        elif micro_instruction == "load_op2":
-            self.pc += 1
-        elif micro_instruction == "store_op0":
-            self.pc += 1
-        elif micro_instruction == "add":
-            self.tmp = self.op1 + self.op2
-        elif micro_instruction == "sub":
-            self.pc += 1
-        elif micro_instruction == "mul":
-            self.pc += 1
-        elif micro_instruction == "div":
-            self.pc += 1
-        elif micro_instruction == "halt":
-            self.pc += 1
-        else:
-            raise RuntimeError("Invalid micro instruction")
+def read_file(file_name: str) -> List[str]:
+    return open(file=file_name, mode='r', encoding='utf-8').read().splitlines()
 
 
-class DataPath:
-    def __init__(self):
-        self.registers = [0 for _ in range(16)]
-        self.pc = 0
-        self.tick_count = 0
-        self.alu = Alu()
+def prepare(compiled_code: str, compiled_data: str, input_file: str |
+            None):
+    instructions = read_file(compiled_code)
+    data = list(map(lambda x: int(x, 2), read_file(compiled_data)))
+    input_str = None if input_file is None else read_file(input_file)[0]
+    run_simulation(instructions, data, input_str)
+
+
+def run_simulation(instructions: List[str], data: List[int], input_str: str | None):
+    datapath = DataPath(instructions, data,
+                        "" if input_str is None else input_str)
+    control_unit = ControlUnit(datapath.alu, datapath)
+    instructions_counter = 0
+    mc_counter  = 0
+    try:
+        while control_unit.tick_counter < TICK_LIMIT:
+            if control_unit.mpc == 0:
+                instructions_counter += 1
+            mc_counter += control_unit.run_microprogram()
+    except Exception as e:
+        print(f"STOP:  {e}")
+    print(f"Tick counter:  {control_unit.tick_counter}")
+    print(f"Instructions executed: {instructions_counter}")
+    print(f"Microprogram counter: {mc_counter}")
+    print(f"Output(int): {datapath.io_controller.output_buffer}")
+    print(f"Output(str): {list(map(chr, datapath.io_controller.output_buffer))}")
+
+
+if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.DEBUG)
+    if len(sys.argv) < 3:
+        print("Not enought arguments!")
+        print("Usage: python machine.py <compiled_code> <compiled_data> OP(<input_file>)")
+        exit(1)
+
+    prepare(sys.argv[1], sys.argv[2], None if len(
+        sys.argv) < 4 else sys.argv[3])

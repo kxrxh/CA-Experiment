@@ -1,14 +1,11 @@
-.data
-
 .text
 loop:
-    load x1, in
-    
-    store out, x1
+    add r1, r0, in
+    add r3, r0, out
 
-    beq x1, 0, exit
+    lw r2, r1
+    sw r2, r3
 
-    jmp loop
-
-exit:
+    bne r2, r0, loop
+        
     halt

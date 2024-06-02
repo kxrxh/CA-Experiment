@@ -31,7 +31,12 @@ def test_translator_and_machine(golden, caplog):
         with open(target_code, mode="rb") as f:
             code = f.read()
             code = str(code, encoding="utf-8").replace("\r", "")
+            
+        with open(target_data, mode="rb") as f:
+            data = f.read()
+            data = str(data, encoding="utf-8").replace("\r", "")
 
         assert code == golden.out["out_code"]
         assert stdout.getvalue() == golden.out["out_stdout"]
+        assert data == golden.out["out_data"]
         assert caplog.text == golden.out["out_log"]

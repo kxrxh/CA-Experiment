@@ -333,19 +333,24 @@ def main(source: str, target_code: str, target_data: str):
     output = []
 
     print("-- Text section --")
+    instruction_mem_counter = 1
     for i, token in enumerate(tokenized):
         binary = convert_tokens_to_binary(token, data_label_mapping, text_label_mapping)
         if binary:
-            print(f"{binary} {code[i]}")
+            print(f"{instruction_mem_counter} {binary} {code[i]}")
             output.append(binary)
+            instruction_mem_counter += 1
     write_file(target_code, output)
 
     print("-- Data section --")
     data_output = []
+    data_mem_counter = 2
     for token_line in get_data_section(tokenized):
         converted = convert_data_tokens_to_binary(token_line)
         for line in converted:
             data_output.append(line)
+            print(f"{data_mem_counter}  {line}")
+            data_mem_counter += 1
     write_file(target_data, data_output)
 
 

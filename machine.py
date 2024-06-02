@@ -14,7 +14,6 @@ def read_file(file_name: str) -> list[str]:
 
 
 def main(compiled_code: str, compiled_data: str, input_file: str | None):
-    logging.getLogger().setLevel(logging.DEBUG)
     instructions = read_file(compiled_code)
     data = list(map(lambda x: int(x, 2), read_file(compiled_data)))
     input_str = None
@@ -50,6 +49,7 @@ def run_simulation(instructions: list[str], data: list[int], input_str: str | No
 
 
 if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.DEBUG)
     assert (
         len(sys.argv) >= 3
     ), "Not enought arguments! Usage: python machine.py <compiled_code> <compiled_data> OP(<input_file>)"

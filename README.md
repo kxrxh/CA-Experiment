@@ -2,70 +2,68 @@
 
 Пархоменко Кирилл P3212
 
-## Вариант
+## Вариант (Базовый)
 
     asm | risc | harv | mc | instr | binary | stream | mem | cstr | prob2
-
-**Базовый вариант**
 
 ## Язык программирования
 
 ### Синтаксис
 
-```ebnf
-<program> ::= { <section> }
+По варианту нужно реализовать ассемблер для архитектуры RISC
 
-<section> ::= "." "text" { <instruction> }
-            | "." "data" { <data_definition> }
+    <program> ::= { <section> }
 
-<instruction> ::=
-               | "halt"
-               | "nop"
-               | "jmp" <label>
-               | "beq" <register> "," <register> "," <label>
-               | "bne" <register> "," <register> "," <label>
-               | "bgt" <register> "," <register> "," <label>
-               | "blt" <register> "," <register> "," <label>
-               | "add" <register> "," <register> "," { <label> | <number> | <register> }
-               | "sub" <register> "," <register> "," { <label> | <number> | <register> }
-               | "and" <register> "," <register> "," { <label> | <number> | <register> }
-               | "mul" <register> "," <register> "," { <label> | <number> | <register> }
-               | "lw" <register> "," <register>
-               | "sw" <register> "," <register>
-               | <label> ":"
+    <section> ::= "." "text" { <instruction> }
+                | "." "data" { <data_definition> }
+
+    <instruction> ::=
+                   | "halt"
+                   | "nop"
+                   | "jmp" <label>
+                   | "beq" <register> "," <register> "," <label>
+                   | "bne" <register> "," <register> "," <label>
+                   | "bgt" <register> "," <register> "," <label>
+                   | "blt" <register> "," <register> "," <label>
+                   | "add" <register> "," <register> "," { <label> | <number> | <register> }
+                   | "sub" <register> "," <register> "," { <label> | <number> | <register> }
+                   | "and" <register> "," <register> "," { <label> | <number> | <register> }
+                   | "mul" <register> "," <register> "," { <label> | <number> | <register> }
+                   | "lw" <register> "," <register>
+                   | "sw" <register> "," <register>
+                   | <label> ":"
 
 
-<data_definition> ::= <identifier> ":" <data_value>
-                    | <comment>
+    <data_definition> ::= <identifier> ":" <data_value>
+                        | <comment>
 
-<data_value> ::= <string>
-               | <number>
-               | <comment>
+    <data_value> ::= <string>
+                   | <number>
+                   | <comment>
 
-<register> ::= "r" <number>
+    <register> ::= "r" <number>
 
-<operand> ::= <register>
-            | "#" <number>
-            | <identifier>
+    <operand> ::= <register>
+                | "#" <number>
+                | <identifier>
 
-<label> ::= "." <identifier>
+    <label> ::= "." <identifier>
 
-<identifier> ::= <letter> { <letter> | <digit> }
-              | <identifier> "." <identifier>
+    <identifier> ::= <letter> { <letter> | <digit> }
+                  | <identifier> "." <identifier>
 
-<number> ::= <digit> { <digit> }
+    <number> ::= <digit> { <digit> }
 
-<string> ::= "\"" { <character> } "\""
+    <string> ::= "\"" { <character> } "\""
 
-<letter> ::= "a" | "b" | "c" | ... | "z"
-           | "A" | "B" | "C" | ... | "Z"
+    <letter> ::= "a" | "b" | "c" | ... | "z"
+               | "A" | "B" | "C" | ... | "Z"
 
-<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+    <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
-<character> ::= <any printable ASCII character except quotation mark>
+    <character> ::= <any printable ASCII character except quotation mark>
 
-<comment> ::= "//" { <any printable ASCII character> }
-```
+    <comment> ::= "//" { <any printable ASCII character> }
 
 ### Команды
 

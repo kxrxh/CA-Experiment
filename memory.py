@@ -19,7 +19,7 @@ class DataMemory:
             initial_data = initial_data[:MAX_MEMORY_SIZE]
 
         # Set initial values for the first few cells
-        self.cells[:len(initial_data)] = initial_data
+        self.cells[: len(initial_data)] = initial_data
         self.register_file = register_file
         self.io_controller = io_controller
 

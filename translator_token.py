@@ -7,12 +7,13 @@ MIN_NUMBER = -(1 << 31)
 
 class TokenType(str, Enum):
     """Enumeration defining types for every possible token."""
-    LABEL = 'label'
-    REGISTER = 'register'
-    NUMBER = 'number'
-    INSTRUCTION = 'instruction'
-    SECTION = 'section'
-    STRING = 'string'
+
+    LABEL = "label"
+    REGISTER = "register"
+    NUMBER = "number"
+    INSTRUCTION = "instruction"
+    SECTION = "section"
+    STRING = "string"
 
 
 class Token:
@@ -23,7 +24,7 @@ class Token:
         self.value = value
 
     def __str__(self) -> str:
-        return f'{self.type}( {self.value} )'
+        return f"{self.type}( {self.value} )"
 
     def __repr__(self) -> str:
         return str(self)

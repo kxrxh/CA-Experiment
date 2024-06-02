@@ -32,8 +32,7 @@ class DataPath:
 
         self.io_controller = IOController(input)
         # Connect Datamemory to register file and io controller
-        self.data_memory = DataMemory(
-            data, self.register_file, self.io_controller)
+        self.data_memory = DataMemory(data, self.register_file, self.io_controller)
 
         self.instruction_memory = InstructionMemory(instructions)
 
@@ -53,8 +52,7 @@ class DataPath:
                 self.pc += 1
             case _:
                 logging.error(f"invalid pc mux signal:  {self.pc_mux}")
-                raise MachineRuntimeError(
-                    f"invalid pc mux signal:  {self.pc_mux}")
+                raise MachineRuntimeError(f"invalid pc mux signal:  {self.pc_mux}")
 
     def sel_data_src(self, value: Signal):
         self.data_src_mux = value
@@ -68,7 +66,8 @@ class DataPath:
             case Signal.SEL_SRC_CU:
                 return self.cu_data_out
             case _:
-                logging.error(f"invalid signal for data source mux:  {
-                              self.data_src_mux}")
-                raise MachineRuntimeError(
-                    f"invalid signal for data source mux:  {self.data_src_mux}")
+                logging.error(
+                    f"invalid signal for data source mux:  {
+                              self.data_src_mux}"
+                )
+                raise MachineRuntimeError(f"invalid signal for data source mux:  {self.data_src_mux}")

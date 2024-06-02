@@ -98,7 +98,7 @@ class Opcode(Enum):
         return self in [Opcode.NOP, Opcode.HALT]
 
     @staticmethod
-    def get_opcode_by_mnemonic(value: str) -> 'Opcode':
+    def get_opcode_by_mnemonic(value: str) -> "Opcode":
         """
         Returns the Opcode enum member corresponding to the given mnemonic string.
 

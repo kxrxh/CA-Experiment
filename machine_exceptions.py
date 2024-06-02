@@ -1,5 +1,6 @@
 class MachineException(Exception):
     """Base class for machine-related exceptions."""
+
     pass
 
 

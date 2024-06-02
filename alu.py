@@ -1,4 +1,3 @@
-
 from register_file import RegisterFile
 from microcode import Signal
 
@@ -24,10 +23,14 @@ class Alu:
 
     def get_alu_by_signal(self, signal: Signal):
         match signal:
-            case Signal.ALU_ADD: self.alu_result = self.reg_file.left_out + self.reg_file.right_out
-            case Signal.ALU_SUB: self.alu_result = self.reg_file.left_out - self.reg_file.right_out
-            case Signal.ALU_MUL: self.alu_result = self.reg_file.left_out * self.reg_file.right_out
-            case Signal.ALU_AND: self.alu_result = self.reg_file.left_out & self.reg_file.right_out
+            case Signal.ALU_ADD:
+                self.alu_result = self.reg_file.left_out + self.reg_file.right_out
+            case Signal.ALU_SUB:
+                self.alu_result = self.reg_file.left_out - self.reg_file.right_out
+            case Signal.ALU_MUL:
+                self.alu_result = self.reg_file.left_out * self.reg_file.right_out
+            case Signal.ALU_AND:
+                self.alu_result = self.reg_file.left_out & self.reg_file.right_out
         self._handle_overflow()
         self.update_flags(self.alu_result)
 

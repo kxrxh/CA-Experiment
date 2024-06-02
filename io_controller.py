@@ -13,8 +13,10 @@ class IOController:
 
     def read_from_buffer(self) -> int:
         if self.input_buffer:
-            logging.debug(f"Reading value from input buffer: {
-                          self.input_buffer[0]}")
+            logging.debug(
+                f"Reading value from input buffer: {
+                          self.input_buffer[0]}"
+            )
             return self.input_buffer.pop(0)
         logging.warning("no more values in input buffer to read")
         raise StopIteration("no more values in input buffer")

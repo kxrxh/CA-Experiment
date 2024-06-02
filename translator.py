@@ -1,33 +1,39 @@
 import re
 import sys
 from typing import Dict, List, Tuple
-from isa import DATA_MEMORY_BEGIN_ADDRESS, INSTRUCTION_MEMORY_BEGIN_ADDRESS, Opcode, INPUT_CELL_ADDRESS, OUTPUT_CELL_ADDRESS
+from isa import (
+    DATA_MEMORY_BEGIN_ADDRESS,
+    INSTRUCTION_MEMORY_BEGIN_ADDRESS,
+    Opcode,
+    INPUT_CELL_ADDRESS,
+    OUTPUT_CELL_ADDRESS,
+)
 from translator_excpetions import InvalidArgumentError, TranslatorError
 from translator_token import Token, TokenType
 
 # Regular expressions for different types of tokens
-REGISTER_REGEX = re.compile(r'\b(r\d+)\b')
-LABEL_REGEX = re.compile(r'[a-zA-Z_]\w*:')
-NUMBER_REGEX = re.compile(r'#\b\d+\b')
-COMMENT_REGEX = re.compile(r'//.*')
+REGISTER_REGEX = re.compile(r"\b(r\d+)\b")
+LABEL_REGEX = re.compile(r"[a-zA-Z_]\w*:")
+NUMBER_REGEX = re.compile(r"#\b\d+\b")
+COMMENT_REGEX = re.compile(r"//.*")
 STRING_REGEX = re.compile(r'"[^\"]*"')
-SECTION_REGEX = re.compile(r'\.(\w+)')
+SECTION_REGEX = re.compile(r"\.(\w+)")
 
 
 def remove_comments(text: str) -> str:
     """
     Remove comments from the given text
     """
-    return re.sub(COMMENT_REGEX, '', text)
+    return re.sub(COMMENT_REGEX, "", text)
 
 
 def write_file(filename: str, code: List[str]):
-    open(filename, 'w').write('\n'.join(code))
+    open(filename, "w").write("\n".join(code))
 
 
 def read_file(filename: str) -> List[str]:
     """Read the contents of a file and return them as a list of lines."""
-    file = open(filename, 'r')
+    file = open(filename, "r")
     code_lines: List[str] = []
     for line in file:
         line = remove_comments(line).strip()
@@ -43,8 +49,7 @@ def replace_quoted_strings(line: str) -> Tuple[str, dict]:
     matches = list(re.finditer(STRING_REGEX, line))
     for match in matches:
         placeholder = f"__STRING_PLACEHOLDER_{placeholder_index}__"
-        string_placeholders[placeholder] = match.group(
-            0).replace("\"", "").replace("\\0", chr(0))
+        string_placeholders[placeholder] = match.group(0).replace('"', "").replace("\\0", chr(0))
         line = line.replace(match.group(0), placeholder, 1)
         placeholder_index += 1
     return line, string_placeholders
@@ -74,7 +79,7 @@ def tokenize_line(line) -> List[Token]:
 
     line, string_placeholders = replace_quoted_strings(line)
 
-    for token in re.split(r'[\s,]+', line):
+    for token in re.split(r"[\s,]+", line):
         if token:
             process_token(token, string_placeholders, tokens)
 
@@ -97,7 +102,7 @@ def get_data_section(token_line: List[List[Token]]) -> List[List[Token]]:
     is_data_section = False
     for line in token_line:
         if line[0].get_type() == TokenType.SECTION:
-            if line[0].get_value() == 'data':
+            if line[0].get_value() == "data":
                 is_data_section = True
             else:
                 is_data_section = False
@@ -113,7 +118,7 @@ def get_text_section(token_line: List[List[Token]]) -> List[List[Token]]:
     is_text_section = False
     for line in token_line:
         if line[0].get_type() == TokenType.SECTION:
-            if line[0].get_value() == 'text':
+            if line[0].get_value() == "text":
                 is_text_section = True
             else:
                 is_text_section = False
@@ -134,7 +139,7 @@ def get_all_labels(token_line: List[List[Token]]) -> List[Token]:
 
 
 def get_data_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
-    mapping = {'in': INPUT_CELL_ADDRESS, 'out': OUTPUT_CELL_ADDRESS}
+    mapping = {"in": INPUT_CELL_ADDRESS, "out": OUTPUT_CELL_ADDRESS}
     current_address = DATA_MEMORY_BEGIN_ADDRESS
 
     data_section_lines = get_data_section(token_lines)
@@ -147,8 +152,7 @@ def get_data_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
             for token in line:
                 if token.get_type() == TokenType.STRING:
                     # Increment the current_address by the length of the string
-                    current_address += len(
-                        token.get_string_value().strip('"').replace('\\0', ''))
+                    current_address += len(token.get_string_value().strip('"').replace("\\0", ""))
                 elif token.get_type() in [TokenType.NUMBER, TokenType.LABEL]:
                     current_address += 1
     print(mapping)
@@ -175,11 +179,11 @@ def get_text_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
 
 def create_binary_command(opcode: int, rb: int, arg1: int, arg2: int, flag: int) -> str:
     # Ensure each argument fits within its designated size
-    opcode = opcode & 0b1111111   # 7 bits for opcode
-    rb = rb & 0b1111              # 4 bits for rb
-    arg1 = arg1 & 0b1111          # 4 bits for arg1
+    opcode = opcode & 0b1111111  # 7 bits for opcode
+    rb = rb & 0b1111  # 4 bits for rb
+    arg1 = arg1 & 0b1111  # 4 bits for arg1
     arg2 = arg2 & 0b1111111111111111  # 16 bits for arg2
-    flag = flag & 0b1             # 1 bit for flag
+    flag = flag & 0b1  # 1 bit for flag
 
     return f"{opcode:07b}{rb:04b}{arg1:04b}{arg2:016b}{flag:01b}"
 
@@ -216,8 +220,7 @@ def convert_math_command_to_binary(opcode: int, tokens: List[Token], data_labels
 
 def convert_branch_command_to_binary(opcode: int, tokens: List[Token], text_label: dict[str, int]) -> str:
     if len(tokens) not in [1, 3]:
-        raise TranslatorError(
-            "Invalid arguments for branch command: expected 3 or 1")
+        raise TranslatorError("Invalid arguments for branch command: expected 3 or 1")
 
     rb = tokens[0]
 
@@ -273,25 +276,25 @@ def convert_no_args_command_to_binary(opcode: int) -> str:
 
 def convert_tokens_to_binary(tokens: List[Token], data_labels: Dict[str, int], text_label: Dict[str, int]) -> str:
     if len(tokens) == 0:
-        raise TranslatorError('No tokens provided')
+        raise TranslatorError("No tokens provided")
 
     for i, token in enumerate(tokens):
         if token.get_type() == TokenType.INSTRUCTION:
             opcode = Opcode.get_opcode_by_mnemonic(token.get_string_value())
             if opcode.is_mathlog():
-                return convert_math_command_to_binary(opcode.get_code(), tokens[i+1:], data_labels)
+                return convert_math_command_to_binary(opcode.get_code(), tokens[i + 1 :], data_labels)
             elif opcode.is_branch():
-                return convert_branch_command_to_binary(opcode.get_code(), tokens[i+1:], text_label)
+                return convert_branch_command_to_binary(opcode.get_code(), tokens[i + 1 :], text_label)
             elif opcode.is_no_args():
                 return convert_no_args_command_to_binary(opcode.get_code())
             elif opcode.is_memory():
-                return convert_memory_command_to_binary(opcode.get_code(), tokens[i+1:])
+                return convert_memory_command_to_binary(opcode.get_code(), tokens[i + 1 :])
     return ""
 
 
 def convert_data_tokens_to_binary(tokens: List[Token]) -> List[str]:
     if len(tokens) == 0:
-        raise TranslatorError('No tokens provided')
+        raise TranslatorError("No tokens provided")
     result = []
     for token in tokens:
         if token.get_type() == TokenType.NUMBER:
@@ -302,16 +305,8 @@ def convert_data_tokens_to_binary(tokens: List[Token]) -> List[str]:
     return result
 
 
-if __name__ == '__main__':
-    if len(sys.argv) < 4:
-        print('Please provide a input_file')
-        print('Usage: python translator.py <input_file> <code_output> <data_output>')
-        sys.exit(1)
-
-    file_name = sys.argv[1]
-    file_code_output = sys.argv[2]
-    file_data_output = sys.argv[3]
-    code = read_file(file_name)
+def main(source: str, target_code: str, target_data: str):
+    code = read_file(source)
     tokenized = tokenize(code)
 
     data_label_mapping = get_data_labels_mapping(tokenized)
@@ -321,12 +316,11 @@ if __name__ == '__main__':
 
     print("-- Text section --")
     for i, token in enumerate(tokenized):
-        binary = convert_tokens_to_binary(
-            token, data_label_mapping, text_label_mapping)
+        binary = convert_tokens_to_binary(token, data_label_mapping, text_label_mapping)
         if binary:
             print(f"{binary} {code[i]}")
             output.append(binary)
-    write_file(file_code_output, output)
+    write_file(target_code, output)
 
     print("-- Data section --")
     data_output = []
@@ -335,4 +329,14 @@ if __name__ == '__main__':
         for line in converted:
             # print(line, chr(int(line, 2)))
             data_output.append(line)
-    write_file(file_data_output, data_output)
+    write_file(target_data, data_output)
+
+
+if __name__ == "__main__":
+    assert len(sys.argv) == 4, "Usage: python translator.py  <input_file>  <code_output>  <data_output>"
+
+    source = sys.argv[1]
+    file_code_output = sys.argv[2]
+    file_data_output = sys.argv[3]
+
+    main(source, file_code_output, file_data_output)

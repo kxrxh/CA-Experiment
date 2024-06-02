@@ -30,6 +30,7 @@ in_source: |-
       sw r5, r10
 
       halt
+
 in_stdin: |-
 out_code: |-
   00000110001000000000000000000011
@@ -50,7 +51,7 @@ out_code: |-
   11111110000000000000000000000000
 out_data: |-
   1111010000100100000000
-out_stdout: |-
+out_stdout: |
   {'in': 0, 'out': 1, 'limit': 2}
   {'loop': 5, 'next': 9, 'exit': 13}
   -- Text section --

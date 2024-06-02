@@ -1,26 +1,35 @@
-in_source: |-
+in_source: |
   .data
-      hello: "Hello, world!" "\0" 
+      hello: "Hello, \0" 
       
   .text
       add r1, r0, hello // Load address to r1
+      add r11, r0, in
       add r10, r0, out
   loop:
       lw r2, r1 // Load 32 bits (WORD) by address (r1) to r2
 
-      beq r2, r0, exit // Check null char
+      beq r2, r0, name // Check null char
 
       sw r2, r10
 
       add r1, r1, #1 // Get address of next memory cell
 
       jmp loop
+  name:
+
+      lw r2, r11
+
+      beq r2, r0, exit
+
+      sw r2, r10
+
+      jmp name
 
   exit:
       halt
-
 in_stdin: |-
-kxrxh
+  kxrxh
 out_code: |-
   00000110001000000000000000000101
   00000111011000000000000000000001
@@ -44,7 +53,7 @@ out_data: |-
   00000000000000000000000000101100
   00000000000000000000000000100000
   00000000000000000000000000000000
-out_stdout: |-
+out_stdout: |
   {'in': 0, 'out': 1, 'hello': 2}
   {'loop': 3, 'name': 8, 'exit': 12}
   -- Text section --
@@ -62,7 +71,7 @@ out_stdout: |-
   00010110000000000000000000010001 jmp name
   11111110000000000000000000000000 halt
   -- Data section --
-out_log: |-
+out_log: |
   DEBUG:root:Machine state: IR(0), MPC(1), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(1), MC_COUNTER(5)
   DEBUG:root:Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(2), MC_COUNTER(9)
   DEBUG:root:Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(3), MC_COUNTER(11)

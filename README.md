@@ -1,16 +1,139 @@
-# CA-Experiment
+# Эксперементальная модель процессора и транслятора
 
-asm | risc | harv | mc | instr | binary | stream | mem | cstr | prob2
+Пархоменко Кирилл P3212
 
-## Command Binary Representation (32-bit)
+## Вариант
 
-| Opcode | RB   | R1 | Address/Number/R2 | Flag | Operation                |
-|--------|------|------------------|----------------|------|--------------------------|
-| 7 bits | 4 bits | 4 bits         | 16 bits        | 1 bit|           = 32 bit       |
-| Opcode | RB   | 0000             | Address        | 1    | Write word operation     |
-| Opcode | RB   | R1               | 16 * [0]       | 0    | Load word operation      |
-| Opcode | RB   | R1               | R2             | 0    | Math operations (reg-reg)|
-| Opcode | RB   | R1               | Number         | 1    | Math operations (reg-imm)|
-| Opcode | RB   | R1               | Address        | 0    | Branch operations        |
-| Opcode | 0000 | 0000             | Address        | 1    | Branch (Jump) operation  |
-| Opcode | 0000 | 0000             | 16 * [0]       | 0    | HALT/NOP operation       |
+    asm | risc | harv | mc | instr | binary | stream | mem | cstr | prob2
+
+**Базовый вариант**
+
+## Язык программирования
+
+### Синтаксис
+
+```ebnf
+<program> ::= { <section> }
+
+<section> ::= "." "text" { <instruction> }
+            | "." "data" { <data_definition> }
+
+<instruction> ::=
+               | "halt"
+               | "nop"
+               | "jmp" <label>
+               | "beq" <register> "," <register> "," <label>
+               | "bne" <register> "," <register> "," <label>
+               | "bgt" <register> "," <register> "," <label>
+               | "blt" <register> "," <register> "," <label>
+               | "add" <register> "," <register> "," { <label> | <number> | <register> }
+               | "sub" <register> "," <register> "," { <label> | <number> | <register> }
+               | "and" <register> "," <register> "," { <label> | <number> | <register> }
+               | "mul" <register> "," <register> "," { <label> | <number> | <register> }
+               | "lw" <register> "," <register>
+               | "sw" <register> "," <register>
+               | <label> ":"
+
+
+<data_definition> ::= <identifier> ":" <data_value>
+                    | <comment>
+
+<data_value> ::= <string>
+               | <number>
+               | <comment>
+
+<register> ::= "r" <number>
+
+<operand> ::= <register>
+            | "#" <number>
+            | <identifier>
+
+<label> ::= "." <identifier>
+
+<identifier> ::= <letter> { <letter> | <digit> }
+              | <identifier> "." <identifier>
+
+<number> ::= <digit> { <digit> }
+
+<string> ::= "\"" { <character> } "\""
+
+<letter> ::= "a" | "b" | "c" | ... | "z"
+           | "A" | "B" | "C" | ... | "Z"
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<character> ::= <any printable ASCII character except quotation mark>
+
+<comment> ::= "//" { <any printable ASCII character> }
+```
+
+### Команды
+
+- `lw a, b` - загрузка из памяти значения по адреса в регистре `b` в регистр `a`.
+- `sw a, b` - сохранение в память содержимого регистра `a` по адресу в регистре `b`.
+- `add a, b, c` - сложение содержимого регистров `b`, `с`, и запись результата в регистр `a`.
+- `sub a, b, c` - вычитание из регистра `b` регистра `с`, и запись результата в регистр `a`.
+- `and a, b, c` - логическое И содержимого регистров `b`, `с`, и запись результата в регистр `a`.
+- `mul a b c` - перемножение содержимого регистров `b`, `с`, и запись результата в регистр `a`.
+- `beq a b c` - сравнение содержимого регистров `a`, `b` и переход по адресу метки `c`, если значения регистров равны
+- `bne a b c` - сравнение содержимого регистров `a`, `b` и переход по адресу метки `c`, если значения регистров не равны
+- `blt a b c` - сравнение содержимого регистров `a`, `b` и переход по адресу метки `c`, если `a` < `b`
+- `bgt a b c` - сравнение содержимого регистров `a`, `b` и переход по адресу метки `c`, если `a` > `b`
+- `jmp a` - переход по адресу метки `a`
+
+## Организация памяти
+
+- Модель памяти соотвествует Гарвардской ахитектуре
+- Размер ячейки памяти данных - 32 bit
+- Размер ячейки памяти инструкций - 32 bit
+- Обращение к памяти происходит только через регистры (левый выход из `Register file` - это адрес, а правый - значение (для записи))
+- Инструкции имеют фиксированную длину (32 bit)
+- Модель включает 16 основных регистров
+- Регистр 0 - `Zero register` (значение всегда равно 0)
+- Регистр 15 - временный регистр (используется для хранения временных данных)
+- Обращение к памяти происходиь только по абсолютному адресу
+- За управление регистрами отвечает `Register File`
+- Присутствует 3 вида памяти: Память инструкций, Память данных, Память микрокоманд
+
+## Микрокоманды
+
+- HALT (сигнал прекращения работы)
+- LATCH_REG (защелкивание регистра на основе значения операнда `RD`)
+- LATCH_REG0 (сигнал защелкивание регистра `r0`)
+- LATCH_REG1 (сигнал защелкивание регистра `r1`)
+- ...
+- LATCH_REG14 (сигнал защелкивание регистра `r14`)
+- LATCH_REG15 (сигнал защелкивание регистра `r15`)
+
+- ALU_ADD (сигнал для сложения в `ALU`)
+- ALU_SUB (сигнал для вычетания в `ALU`)
+- ALU_AND (сигнал для логического И в `ALU`)
+- ALU_MUL(сигнал для умножения в `ALU`)
+
+- LATCH_PC (сигнал для защелкивания значения `PC`)
+- LATCH_MPC (сигнал для защелкивания значения `MCP`)
+- LATCH_IR (сигнал для защелкивания значения `IR`)
+- LATCH_OPERANDS (сигнал для защелкивания регистра с операндами)
+
+- LATCH_READ_MEM (сигнал для вывода (защелкивания) значения ячейки памяти на шишу данных)
+- LATCH_WRITE_MEM (сигнал для записи значения в ячейку памяти)
+
+- SEL_PC_ADDR (управляющий сигнал для выбор шины с адресом для `PC`)
+- SEL_PC_INC (управлюящий сигнал для инкрмента (+1) значения `PC`)
+
+- SEL_MPC_ZERO (управляющий сигнал для установки значения `0` в `MPC`)
+- SEL_MPC_INC (управляющий сигнал для инкремента значения `MPC` (+1 или +2))
+- SEL_MPC_IR (управляющий сигнал для присваивания значения `MPC` из `IR`)
+
+- SEL_TWICE_INC_IF_Z (управляющий сигнал, который устанавливает шаг инкремента `MPC` в `+2`, если сигнал `Z = 1`)
+- SEL_TWICE_INC_IF_N (управляющий сигнал, который устанавливает шаг инкремента `MPC` в `+2`, если сигнал `N = 1`)
+- SEL_ONE_INC (управляющий сигнал для установки шага инкремента `MPC` в `+1`)
+
+- SEL_SRC_MEM (управляющий сигнал, чтобы `Register File` приходило значение из памяти данных)
+- SEL_SRC_ALU (управляющий сигнал, чтобы `Register File` приходило значение из `ALU`)
+- SEL_SRC_CU (управляющий сигнал, чтобы `Register File` приходило значение из `Control Unit` (прямая загрузка операнда))
+
+- SEL_REG_L (выбор регистра на левый выход `Register File` на основе значения операнда `r1`)
+- SEL_REG_R (выбор регистра на левый выход `Register File` на основе значения операнда `r2`)
+
+Все сигналы в [microcode.py](microcode.py)

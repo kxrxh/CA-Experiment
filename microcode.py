@@ -106,7 +106,7 @@ class MicroProgramMemory:
         [Signal.HALT],
 
         # 5: Add no-flag
-        [Signal.ALU_ADD, Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.SEL_SRC_ALU,
+        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_ADD, Signal.SEL_SRC_ALU,
             Signal.LATCH_REG, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
 
         # 6: Add with flag
@@ -116,7 +116,7 @@ class MicroProgramMemory:
             Signal.LATCH_REG, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
 
         # 8: Sub no-flag
-        [Signal.ALU_SUB, Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.SEL_SRC_ALU,
+        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB, Signal.SEL_SRC_ALU,
             Signal.LATCH_REG, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
 
         # 9: Sub with flag
@@ -158,7 +158,7 @@ class MicroProgramMemory:
         # 20: beq
         [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB,
             Signal.SEL_MPC_INC, Signal.LATCH_MPC],
-        [Signal.SEL_MPC_INC, Signal.LATCH_MPC, Signal.SEL_TWICE_INC_IF_Z],
+        [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_Z, Signal.LATCH_MPC],
         [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not Z
         [Signal.SEL_PC_ADDR, Signal.LATCH_PC,
             Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if Z
@@ -175,18 +175,20 @@ class MicroProgramMemory:
         # 28: bgt
         [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB,
             Signal.SEL_MPC_INC, Signal.LATCH_MPC],
-        [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_Z,  Signal.LATCH_MPC],
-        [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
+        [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_N,  Signal.LATCH_MPC],
         [Signal.SEL_PC_ADDR, Signal.LATCH_PC,
-            Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if N
+            Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
+        [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if N
+
 
         # 32: blt
         [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB,
             Signal.SEL_MPC_INC, Signal.LATCH_MPC],
-        [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_Z, Signal.LATCH_MPC],
+        [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_N, Signal.LATCH_MPC],
+        [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
         [Signal.SEL_PC_ADDR, Signal.LATCH_PC,
             Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if N
-        [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
+
 
 
         # 36: jmp

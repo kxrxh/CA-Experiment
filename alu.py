@@ -2,6 +2,9 @@
 from register_file import RegisterFile
 from microcode import Signal
 
+MAX_NUMBER = 1 << 31 - 1
+MIN_NUMBER = -(1 << 31)
+
 
 class Alu:
     reg_file: RegisterFile
@@ -25,8 +28,14 @@ class Alu:
             case Signal.ALU_SUB: self.alu_result = self.reg_file.left_out - self.reg_file.right_out
             case Signal.ALU_MUL: self.alu_result = self.reg_file.left_out * self.reg_file.right_out
             case Signal.ALU_AND: self.alu_result = self.reg_file.left_out & self.reg_file.right_out
+        self._handle_overflow()
         self.update_flags(self.alu_result)
-    
+
+    def _handle_overflow(self):
+        if self.alu_result > MAX_NUMBER:
+            self.alu_result %= MAX_NUMBER
+        elif self.alu_result < MIN_NUMBER:
+            self.alu_result %= abs(MIN_NUMBER)
 
     def update_flags(self, value: int):
         if value == 0:
@@ -34,4 +43,4 @@ class Alu:
         elif value < 0:
             self.zero_neg = 2  # '10'
         else:
-            self.zero_neg = 0  # '00' 
+            self.zero_neg = 0  # '00'

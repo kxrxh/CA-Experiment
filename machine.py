@@ -5,7 +5,7 @@ from typing import List
 from control_unit import ControlUnit
 from datapath import DataPath
 
-TICK_LIMIT = 7000
+TICK_LIMIT = 7000000
 
 
 def read_file(file_name: str) -> List[str]:
@@ -36,7 +36,8 @@ def run_simulation(instructions: List[str], data: List[int], input_str: str | No
     print(f"Tick counter:  {control_unit.tick_counter}")
     print(f"Instructions executed: {instructions_counter}")
     print(f"Microprogram counter: {mc_counter}")
-    print(f"Printed: {datapath.io_controller.output_buffer}")
+    print(f"Output(int): {datapath.io_controller.output_buffer}")
+    print(f"Output(str): {list(map(chr, datapath.io_controller.output_buffer))}")
 
 
 if __name__ == "__main__":

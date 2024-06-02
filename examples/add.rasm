@@ -1,5 +1,9 @@
 .text
-    add r1, r0, #3
-    add r2, r0, #2
+    add r4, r0, out
+
+    add r1, r0, #1
+    add r2, r0, #3
     add r3, r1, r2
+
+    sw r3, r4
     halt

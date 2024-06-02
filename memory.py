@@ -5,10 +5,21 @@ from register_file import RegisterFile
 from io_controller import IOController
 from machine_exceptions import MachineRuntimeError
 
+MAX_MEMORY_SIZE = 65535
+
 
 class DataMemory:
     def __init__(self, data: List[int], register_file: RegisterFile, io_controller: IOController) -> None:
-        self.cells = [0, 0] + data
+        # Initialize all cells with 0
+        self.cells = [0] * MAX_MEMORY_SIZE
+
+        initial_data = [0, 0] + data
+        # Truncate initial_data if it exceeds MAX_MEMORY_SIZE
+        if len(initial_data) > MAX_MEMORY_SIZE:
+            initial_data = initial_data[:MAX_MEMORY_SIZE]
+
+        # Set initial values for the first few cells
+        self.cells[:len(initial_data)] = initial_data
         self.register_file = register_file
         self.io_controller = io_controller
 

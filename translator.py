@@ -174,6 +174,13 @@ def get_text_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
 
 
 def create_binary_command(opcode: int, rb: int, arg1: int, arg2: int, flag: int) -> str:
+    # Ensure each argument fits within its designated size
+    opcode = opcode & 0b1111111   # 7 bits for opcode
+    rb = rb & 0b1111              # 4 bits for rb
+    arg1 = arg1 & 0b1111          # 4 bits for arg1
+    arg2 = arg2 & 0b1111111111111111  # 16 bits for arg2
+    flag = flag & 0b1             # 1 bit for flag
+
     return f"{opcode:07b}{rb:04b}{arg1:04b}{arg2:016b}{flag:01b}"
 
 
@@ -247,8 +254,8 @@ def convert_memory_command_to_binary(opcode: int, tokens: List[Token]) -> str:
     if arg.get_type() not in [TokenType.LABEL, TokenType.REGISTER]:
         raise InvalidArgumentError("arg", ["label", "register"])
 
-    rb = rb_t.get_int_value() # Data
-    r1 = arg.get_int_value() # Address
+    rb = rb_t.get_int_value()  # Data
+    r1 = arg.get_int_value()  # Address
     r2 = 0
     # Set R1 if opcode is LOAD_WORD, otherwise set R2
     if Opcode.LOAD_WORD.code == opcode:

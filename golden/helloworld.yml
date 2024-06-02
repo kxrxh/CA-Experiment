@@ -421,8 +421,9 @@ out_log: |
   DEBUG   machine:run_simulation Machine state: IR(4), MPC(2), PC(8), REGISTERS([0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]), NZ(1), TICKS(335), MC_COUNTER(1318)
   DEBUG   machine:run_simulation Machine state: IR(4), MPC(4), PC(8), REGISTERS([0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]), NZ(1), TICKS(336), MC_COUNTER(1320)
   DEBUG   machine:run_simulation StopIteration reason:  HALT
-  DEBUG   machine:run_simulation Tick counter:  336
+  DEBUG   machine:run_simulation LOC: 8
+  DEBUG   machine:run_simulation Ticks:  336
   DEBUG   machine:run_simulation Instructions executed: 70
-  DEBUG   machine:run_simulation Microprogram counter: 1320
+  DEBUG   machine:run_simulation Microprogram executed: 1320
   DEBUG   machine:run_simulation Output(int): [72, 101, 108, 108, 111, 44, 32, 119, 111, 114, 108, 100, 33]
   DEBUG   machine:run_simulation Output(str): ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!']

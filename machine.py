@@ -25,7 +25,8 @@ def main(compiled_code: str, compiled_data: str, input_file: str | None):
 
 
 def run_simulation(instructions: list[str], data: list[int], input_str: str | None):
-    datapath = DataPath(instructions, data, "" if input_str is None else input_str)
+    datapath = DataPath(instructions, data,
+                        "" if input_str is None else input_str)
     control_unit = ControlUnit(datapath.alu, datapath)
     instructions_counter = 0
     mc_counter = 0
@@ -35,16 +36,19 @@ def run_simulation(instructions: list[str], data: list[int], input_str: str | No
                 instructions_counter += 1
             mc_counter += control_unit.run_microprogram()
             logging.debug(
-                f"Machine state: IR({control_unit.ir}), MPC({control_unit.mpc}), PC({datapath.pc}), REGISTERS({datapath.register_file.registers}), NZ({datapath.alu.neg_zero}), TICKS({control_unit.tick_counter}), MC_COUNTER({mc_counter})"
+                f"Machine state: IR({control_unit.ir}), MPC({control_unit.mpc}), PC({datapath.pc}), REGISTERS({
+                    datapath.register_file.registers}), NZ({datapath.alu.neg_zero}), TICKS({control_unit.tick_counter}), MC_COUNTER({mc_counter})"
             )
     except Exception as e:
         logging.debug(f"StopIteration reason:  {e}")
-    logging.debug(f"Tick counter:  {control_unit.tick_counter}")
+    logging.debug(f"LOC: {len(instructions)}")
+    logging.debug(f"Ticks:  {control_unit.tick_counter}")
     logging.debug(f"Instructions executed: {instructions_counter}")
-    logging.debug(f"Microprogram counter: {mc_counter}")
+    logging.debug(f"Microprogram executed: {mc_counter}")
     logging.debug(f"Output(int): {datapath.io_controller.output_buffer}")
     logging.debug(
-        f"Output(str): {list(map(lambda x: chr(x) if x in range(0x110000) else "NONE", datapath.io_controller.output_buffer))}"
+        f"Output(str): {list(map(lambda x: chr(x) if x in range(
+            0x110000) else "NONE", datapath.io_controller.output_buffer))}"
     )
 
 

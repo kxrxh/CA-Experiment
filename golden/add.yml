@@ -1,0 +1,66 @@
+in_source: |-
+  .text
+      add r4, r0, out
+
+      add r1, r0, #1
+      add r2, r0, #3
+      add r3, r1, r2
+
+      sw r3, r4
+      halt
+in_stdin: |
+out_code: |-
+  00000110100000000000000000000011
+  00000110001000000000000000000011
+  00000110010000000000000000000111
+  00000110011000100000000000000100
+  00000100000010000000000000000111
+  11111110000000000000000000000000
+out_data: |
+out_stdout: |
+  {'in': 0, 'out': 1}
+  {}
+  -- Text section --
+  00000110100000000000000000000011 add r4, r0, out
+  00000110001000000000000000000011 add r1, r0, #1
+  00000110010000000000000000000111 add r2, r0, #3
+  00000110011000100000000000000100 add r3, r1, r2
+  00000100000010000000000000000111 sw r3, r4
+  11111110000000000000000000000000 halt
+  -- Data section --
+out_log: |
+  DEBUG   machine:run_simulation Machine state: IR(0), MPC(1), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(1), MC_COUNTER(5)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(2), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(2), MC_COUNTER(9)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(6), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), NZ(0), TICKS(3), MC_COUNTER(11)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(7), PC(1), REGISTERS([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(4), MC_COUNTER(15)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(0), PC(1), REGISTERS([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(5), MC_COUNTER(22)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(1), PC(2), REGISTERS([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(6), MC_COUNTER(27)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(2), PC(2), REGISTERS([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(7), MC_COUNTER(31)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(6), PC(2), REGISTERS([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(8), MC_COUNTER(33)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(7), PC(2), REGISTERS([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(9), MC_COUNTER(37)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(0), PC(2), REGISTERS([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(10), MC_COUNTER(44)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(1), PC(3), REGISTERS([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(11), MC_COUNTER(49)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(2), PC(3), REGISTERS([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(12), MC_COUNTER(53)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(6), PC(3), REGISTERS([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]), NZ(0), TICKS(13), MC_COUNTER(55)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(7), PC(3), REGISTERS([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(14), MC_COUNTER(59)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(0), PC(3), REGISTERS([0, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(15), MC_COUNTER(66)
+  DEBUG   machine:run_simulation Machine state: IR(6), MPC(1), PC(4), REGISTERS([0, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(16), MC_COUNTER(71)
+  DEBUG   machine:run_simulation Machine state: IR(5), MPC(2), PC(4), REGISTERS([0, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(17), MC_COUNTER(75)
+  DEBUG   machine:run_simulation Machine state: IR(5), MPC(5), PC(4), REGISTERS([0, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(18), MC_COUNTER(77)
+  DEBUG   machine:run_simulation Machine state: IR(5), MPC(0), PC(4), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(19), MC_COUNTER(84)
+  DEBUG   machine:run_simulation Machine state: IR(5), MPC(1), PC(5), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(20), MC_COUNTER(89)
+  DEBUG   machine:run_simulation Machine state: IR(19), MPC(2), PC(5), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(21), MC_COUNTER(93)
+  DEBUG   machine:run_simulation Machine state: IR(19), MPC(19), PC(5), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(22), MC_COUNTER(95)
+  DEBUG   memory:write_cell    Writing to 'out' buffer
+  DEBUG   io_controller:write_to_buffer Adding value to output buffer: 4
+  DEBUG   machine:run_simulation Machine state: IR(19), MPC(0), PC(5), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(23), MC_COUNTER(100)
+  DEBUG   machine:run_simulation Machine state: IR(19), MPC(1), PC(6), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(24), MC_COUNTER(105)
+  DEBUG   machine:run_simulation Machine state: IR(4), MPC(2), PC(6), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(25), MC_COUNTER(109)
+  DEBUG   machine:run_simulation Machine state: IR(4), MPC(4), PC(6), REGISTERS([0, 1, 3, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]), NZ(0), TICKS(26), MC_COUNTER(111)
+  DEBUG   machine:run_simulation StopIteration reason:  HALT
+  DEBUG   machine:run_simulation LOC: 6
+  DEBUG   machine:run_simulation Ticks:  26
+  DEBUG   machine:run_simulation Instructions executed: 6
+  DEBUG   machine:run_simulation Microprogram executed: 111
+  DEBUG   machine:run_simulation Output(int): [4]
+  DEBUG   machine:run_simulation Output(str): ['\x04']

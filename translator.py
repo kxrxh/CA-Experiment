@@ -151,7 +151,7 @@ def get_data_labels_mapping(token_lines: list[list[Token]]) -> dict[str, int]:
             # Calculate the memory address for this label
             mapping[label] = current_address
             # Assume the next token in the line is a string
-            for token in line:
+            for token in line[1:]:
                 if token.get_type() == TokenType.STRING:
                     # Increment the current_address by the length of the string
                     current_address += len(token.get_string_value().strip('"').replace("\\0", ""))
@@ -166,7 +166,7 @@ def get_text_labels_mapping(token_lines: list[list[Token]]) -> dict[str, int]:
     instruction_index = INSTRUCTION_MEMORY_BEGIN_ADDRESS
 
     text_section_lines = get_text_section(token_lines)
-    for index, line in enumerate(text_section_lines):
+    for _, line in enumerate(text_section_lines):
         if not line:
             continue
         if line[0].get_type() == TokenType.LABEL:
@@ -316,7 +316,7 @@ def convert_data_tokens_to_binary(tokens: list[Token]) -> list[str]:
     result = []
     for token in tokens:
         if token.get_type() == TokenType.NUMBER:
-            result.append(f"{token.get_int_value():016b}")
+            result.append(f"{token.get_int_value():032b}")
         elif token.get_type() == TokenType.STRING:
             for char in token.get_string_value():
                 result.append(f"{ord(char):032b}")

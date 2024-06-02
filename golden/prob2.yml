@@ -50,7 +50,7 @@ out_code: |-
   00000100000101000000000000001011
   11111110000000000000000000000000
 out_data: |-
-  1111010000100100000000
+  00000000001111010000100100000000
 out_stdout: |
   {'in': 0, 'out': 1, 'limit': 2}
   {'loop': 5, 'next': 9, 'exit': 13}
@@ -1219,8 +1219,9 @@ out_log: |
   DEBUG   machine:run_simulation Machine state: IR(4), MPC(2), PC(16), REGISTERS([0, 5702887, 9227465, 0, 4000000, 4613732, 9227465, 0, 0, 0, 1, 0, 0, 0, 0, 1]), NZ(0), TICKS(1142), MC_COUNTER(4674)
   DEBUG   machine:run_simulation Machine state: IR(4), MPC(4), PC(16), REGISTERS([0, 5702887, 9227465, 0, 4000000, 4613732, 9227465, 0, 0, 0, 1, 0, 0, 0, 0, 1]), NZ(0), TICKS(1143), MC_COUNTER(4676)
   DEBUG   machine:run_simulation StopIteration reason:  HALT
-  DEBUG   machine:run_simulation Tick counter:  1143
+  DEBUG   machine:run_simulation LOC: 16
+  DEBUG   machine:run_simulation Ticks:  1143
   DEBUG   machine:run_simulation Instructions executed: 244
-  DEBUG   machine:run_simulation Microprogram counter: 4676
+  DEBUG   machine:run_simulation Microprogram executed: 4676
   DEBUG   machine:run_simulation Output(int): [4613732]
   DEBUG   machine:run_simulation Output(str): ['NONE']

@@ -1,0 +1,54 @@
+.data
+var1: #10       // Variable 1 with initial value 10
+var2: #30       // Variable 2 with initial value 20
+result: #0      // Variable to store the result
+
+.text
+main:
+    nop             // No operation
+
+    add r10, r0, var1
+    add r11, r0, var2,
+    add r12, r0, result
+    add r13, r0, out
+
+    lw r1, r10    // Load word: Load value of var1 into register r1
+    lw r2, r11    // Load word: Load value of var2 into register r2
+
+    add r3, r1, r2  // Add: Add values in r1 and r2, store result in r3
+
+    sub r4, r2, r1  // Subtract: Subtract value in r1 from r2, store result in r3
+
+    mul r5, r1, r2  // Multiply: Multiply values in $t0 and $t1, store result in $t4
+
+    and r6, r1, r2  // AND: Perform bitwise AND on $t0 and $t1, store result in $t5
+
+    bgt r1, r2, greater // Branch if greater than: if r1 > $r2, jump to label 'greater'
+    beq r1, r2, equal    // Branch if equal: if r1 == r2, jump to label 'equal'
+    blt r1, r2, less     // Branch if less than: if r2 < r1, jump to label 'less'
+    bne r1, r2, notequal // Branch if not equal: if r1 != r2, jump to label 'notequal'
+
+    jmp end           // Jump: jump to end of program
+
+equal:
+    sw r3, r12    // Store word: store the result of addition in 'result'
+    sw r3, r13
+    jmp end           // Jump to end
+
+notequal:
+    sw r4, r12    // Store word: store the result of subtraction in 'result'
+    sw r4, r13
+    jmp end           // Jump to end
+
+less:
+    sw r5, r12    // Store word: store the result of multiplication in 'result'
+    sw r5, r13
+    jmp end           // Jump to end
+
+greater:
+    sw r6, r12    // Store word: store the result of AND operation in 'result'
+    sw r6, r13
+    jmp end           // Jump to end
+
+end:
+    halt              // Halt: End of program

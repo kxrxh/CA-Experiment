@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 import logging
-from typing import List
+
 from alu import Alu
-from register_file import RegisterFile
 from io_controller import IOController
-from machine_exceptions import MachineRuntimeError
+from machine_exceptions import InvalidMuxSignalError
 from memory import DataMemory, InstructionMemory
 from microcode import Signal
+from register_file import RegisterFile
 
 
 class DataPath:
@@ -23,16 +25,17 @@ class DataPath:
     cu_address_out: int
     cu_data_out: int
 
-    def __init__(self, instructions: List[str], data: List[int], input: str):
+    def __init__(self, instructions: list[str], data: list[int], input_stream: str):
         self.pc = 0
 
         self.register_file = RegisterFile()
         # Connect ALU to register file
         self.alu = Alu(self.register_file)
 
-        self.io_controller = IOController(input)
+        self.io_controller = IOController(input_stream)
         # Connect Datamemory to register file and io controller
-        self.data_memory = DataMemory(data, self.register_file, self.io_controller)
+        self.data_memory = DataMemory(
+            data, self.register_file, self.io_controller)
 
         self.instruction_memory = InstructionMemory(instructions)
 
@@ -52,7 +55,7 @@ class DataPath:
                 self.pc += 1
             case _:
                 logging.error(f"invalid pc mux signal:  {self.pc_mux}")
-                raise MachineRuntimeError(f"invalid pc mux signal:  {self.pc_mux}")
+                raise InvalidMuxSignalError("pc_mux")
 
     def sel_data_src(self, value: Signal):
         self.data_src_mux = value
@@ -66,8 +69,6 @@ class DataPath:
             case Signal.SEL_SRC_CU:
                 return self.cu_data_out
             case _:
-                logging.error(
-                    f"invalid signal for data source mux:  {
-                              self.data_src_mux}"
-                )
-                raise MachineRuntimeError(f"invalid signal for data source mux:  {self.data_src_mux}")
+                logging.error(f"invalid signal for data source mux:  {
+                              self.data_src_mux}")
+                raise InvalidMuxSignalError("data_src_mux")

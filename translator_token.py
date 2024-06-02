@@ -1,5 +1,6 @@
-from enum import Enum
+from __future__ import annotations
 
+from enum import Enum
 
 MAX_NUMBER = 1 << 31 - 1
 MIN_NUMBER = -(1 << 31)
@@ -19,8 +20,8 @@ class TokenType(str, Enum):
 class Token:
     """Class representing a token with its type and value."""
 
-    def __init__(self, type: TokenType, value: str | int):
-        self.type = type
+    def __init__(self, token_type: TokenType, value: str | int):
+        self.type = token_type
         self.value = value
 
     def __str__(self) -> str:

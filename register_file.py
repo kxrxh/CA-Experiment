@@ -1,4 +1,4 @@
-from machine_exceptions import InvalidRegisterIndex
+from machine_exceptions import InvalidRegisterIndexError
 from microcode import Signal
 
 
@@ -12,11 +12,11 @@ class RegisterFile:
 
     def latch_reg_n(self, index: int, value: int) -> None:
         if index == 0:
-            raise InvalidRegisterIndex("Register with index 0 is immutable")
-        elif 1 <= index <= 15:
+            raise InvalidRegisterIndexError("R0-immutable")
+        if 1 <= index <= 15:
             self.registers[index] = value
         else:
-            raise InvalidRegisterIndex(f"Register r{index} does not exist")
+            raise InvalidRegisterIndexError("R%d-immutable" % index)
 
     def sel_left_reg(self, signal: Signal) -> None:
         self.mux_left_out = signal

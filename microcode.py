@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from enum import IntEnum, auto
-from typing import List
+from typing import ClassVar
 
 
 class Signal(IntEnum):
@@ -93,9 +95,15 @@ class Signal(IntEnum):
 class MicroProgramMemory:
     """Class representing microprogram memory."""
 
-    _memory: List[List[Signal]] = [
+    _memory: ClassVar[list[list[Signal]]] = [
         # 0: Instruction fetch
-        [Signal.SEL_ONE_INC, Signal.SEL_PC_INC, Signal.LATCH_PC, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_ONE_INC,
+            Signal.SEL_PC_INC,
+            Signal.LATCH_PC,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_MPC_INC, Signal.LATCH_MPC, Signal.LATCH_IR, Signal.LATCH_OPERANDS],
         [Signal.SEL_MPC_IR, Signal.LATCH_MPC],
         # 3: Nop
@@ -187,36 +195,92 @@ class MicroProgramMemory:
             Signal.LATCH_MPC,
         ],
         # 17: lw
-        [Signal.SEL_SRC_CU, Signal.SEL_REG_L, Signal.LATCH_READ_MEM, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_SRC_CU,
+            Signal.SEL_REG_L,
+            Signal.LATCH_READ_MEM,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_SRC_MEM, Signal.LATCH_REG, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
         # 19: sw
-        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.LATCH_WRITE_MEM, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
+        [
+            Signal.SEL_REG_L,
+            Signal.SEL_REG_R,
+            Signal.LATCH_WRITE_MEM,
+            Signal.SEL_MPC_ZERO,
+            Signal.LATCH_MPC,
+        ],
         # 20: beq
-        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_REG_L,
+            Signal.SEL_REG_R,
+            Signal.ALU_SUB,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_Z, Signal.LATCH_MPC],
         [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not Z
-        [Signal.SEL_PC_ADDR, Signal.LATCH_PC, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if Z
+        [
+            Signal.SEL_PC_ADDR,
+            Signal.LATCH_PC,
+            Signal.SEL_MPC_ZERO,
+            Signal.LATCH_MPC,
+        ],  # if Z
         # 24: bne
-        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_REG_L,
+            Signal.SEL_REG_R,
+            Signal.ALU_SUB,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_Z, Signal.LATCH_MPC],
-        [Signal.SEL_PC_ADDR, Signal.LATCH_PC, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not Z
+        [
+            Signal.SEL_PC_ADDR,
+            Signal.LATCH_PC,
+            Signal.SEL_MPC_ZERO,
+            Signal.LATCH_MPC,
+        ],  # if not Z
         [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if Z
         # 28: bgt
-        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_REG_L,
+            Signal.SEL_REG_R,
+            Signal.ALU_SUB,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_N, Signal.LATCH_MPC],
-        [Signal.SEL_PC_ADDR, Signal.LATCH_PC, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
+        [
+            Signal.SEL_PC_ADDR,
+            Signal.LATCH_PC,
+            Signal.SEL_MPC_ZERO,
+            Signal.LATCH_MPC,
+        ],  # if not N
         [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if N
         # 32: blt
-        [Signal.SEL_REG_L, Signal.SEL_REG_R, Signal.ALU_SUB, Signal.SEL_MPC_INC, Signal.LATCH_MPC],
+        [
+            Signal.SEL_REG_L,
+            Signal.SEL_REG_R,
+            Signal.ALU_SUB,
+            Signal.SEL_MPC_INC,
+            Signal.LATCH_MPC,
+        ],
         [Signal.SEL_MPC_INC, Signal.SEL_TWICE_INC_IF_N, Signal.LATCH_MPC],
         [Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if not N
-        [Signal.SEL_PC_ADDR, Signal.LATCH_PC, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],  # if N
+        [
+            Signal.SEL_PC_ADDR,
+            Signal.LATCH_PC,
+            Signal.SEL_MPC_ZERO,
+            Signal.LATCH_MPC,
+        ],  # if N
         # 36: jmp
         [Signal.SEL_PC_ADDR, Signal.LATCH_PC, Signal.SEL_MPC_ZERO, Signal.LATCH_MPC],
         [Signal.SEL_MPC_INC, Signal.LATCH_MPC],
     ]
 
     @staticmethod
-    def get_microprogram(index: int) -> List[Signal]:
+    def get_microprogram(index: int) -> list[Signal]:
         """Retrieve microprogram for a given index."""
         return MicroProgramMemory._memory[index]

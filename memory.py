@@ -1,19 +1,20 @@
-from logging import log
+from __future__ import annotations
+
 import logging
-from typing import List
-from register_file import RegisterFile
+
 from io_controller import IOController
-from machine_exceptions import MachineRuntimeError
+from machine_exceptions import ReadOnlyCellError, WriteOnlyCellError
+from register_file import RegisterFile
 
 MAX_MEMORY_SIZE = 65535
 
 
 class DataMemory:
-    def __init__(self, data: List[int], register_file: RegisterFile, io_controller: IOController) -> None:
+    def __init__(self, data: list[int], register_file: RegisterFile, io_controller: IOController) -> None:
         # Initialize all cells with 0
         self.cells = [0] * MAX_MEMORY_SIZE
 
-        initial_data = [0, 0] + data
+        initial_data = [0, 0, *data]
         # Truncate initial_data if it exceeds MAX_MEMORY_SIZE
         if len(initial_data) > MAX_MEMORY_SIZE:
             initial_data = initial_data[:MAX_MEMORY_SIZE]
@@ -27,16 +28,16 @@ class DataMemory:
         if index == 0:
             logging.debug("Reading from 'in' buffer")
             return self.io_controller.read_from_buffer()
-        elif index == 1:
+        if index == 1:
             logging.error("Unable to read from write-only cell")
-            raise MachineRuntimeError("Unable to read from write-only cell")
+            raise WriteOnlyCellError()
         return self.cells[index]
 
     def write_cell(self, index: int, value: int) -> None:
         if index == 0:
             logging.error("Unable to write to read-only cell")
-            raise MachineRuntimeError("Unable to write to read-only cell")
-        elif index == 1:
+            raise ReadOnlyCellError()
+        if index == 1:
             logging.debug("Writing to 'out' buffer")
             self.io_controller.write_to_buffer(value)
         self.cells[index] = value
@@ -52,7 +53,7 @@ class DataMemory:
 
 
 class InstructionMemory:
-    def __init__(self, cells: List[str]) -> None:
+    def __init__(self, cells: list[str]) -> None:
         self.cells = cells
 
     def read_cell(self, index: int) -> str:

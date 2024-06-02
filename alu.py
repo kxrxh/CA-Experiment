@@ -1,5 +1,5 @@
-from register_file import RegisterFile
 from microcode import Signal
+from register_file import RegisterFile
 
 MAX_NUMBER = 1 << 31 - 1
 MIN_NUMBER = -(1 << 31)

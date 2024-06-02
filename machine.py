@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import logging
 import sys
-from typing import List
 
 from control_unit import ControlUnit
 from datapath import DataPath
@@ -8,8 +9,8 @@ from datapath import DataPath
 TICK_LIMIT = 7000
 
 
-def read_file(file_name: str) -> List[str]:
-    return open(file=file_name, mode="r", encoding="utf-8").read().splitlines()
+def read_file(file_name: str) -> list[str]:
+    return open(file=file_name, encoding="utf-8").read().splitlines()
 
 
 def main(compiled_code: str, compiled_data: str, input_file: str | None):
@@ -24,7 +25,7 @@ def main(compiled_code: str, compiled_data: str, input_file: str | None):
     run_simulation(instructions, data, input_str)
 
 
-def run_simulation(instructions: List[str], data: List[int], input_str: str | None):
+def run_simulation(instructions: list[str], data: list[int], input_str: str | None):
     datapath = DataPath(instructions, data, "" if input_str is None else input_str)
     control_unit = ControlUnit(datapath.alu, datapath)
     instructions_counter = 0
@@ -35,8 +36,7 @@ def run_simulation(instructions: List[str], data: List[int], input_str: str | No
                 instructions_counter += 1
             mc_counter += control_unit.run_microprogram()
             logging.debug(
-                f"Machine state: IR({control_unit.ir}), MPC({control_unit.mpc}), PC({datapath.pc}), REGISTERS({
-                          datapath.register_file.registers}), NZ({datapath.alu.neg_zero}), TICKS({control_unit.tick_counter}), MC_COUNTER({mc_counter})"
+                f"Machine state: IR({control_unit.ir}), MPC({control_unit.mpc}), PC({datapath.pc}), REGISTERS({datapath.register_file.registers}), NZ({datapath.alu.neg_zero}), TICKS({control_unit.tick_counter}), MC_COUNTER({mc_counter})"
             )
     except Exception as e:
         logging.debug(f"StopIteration reason:  {e}")
@@ -45,8 +45,7 @@ def run_simulation(instructions: List[str], data: List[int], input_str: str | No
     logging.debug(f"Microprogram counter: {mc_counter}")
     logging.debug(f"Output(int): {datapath.io_controller.output_buffer}")
     logging.debug(
-        f"Output(str): {
-        list(map(lambda x: chr(x) if x in range(0x110000) else "NONE", datapath.io_controller.output_buffer))}"
+        f"Output(str): {list(map(lambda x: chr(x) if x in range(0x110000) else "NONE", datapath.io_controller.output_buffer))}"
     )
 
 

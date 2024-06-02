@@ -1,14 +1,16 @@
+from __future__ import annotations
+
 import re
 import sys
-from typing import Dict, List, Tuple
+
 from isa import (
     DATA_MEMORY_BEGIN_ADDRESS,
-    INSTRUCTION_MEMORY_BEGIN_ADDRESS,
-    Opcode,
     INPUT_CELL_ADDRESS,
+    INSTRUCTION_MEMORY_BEGIN_ADDRESS,
     OUTPUT_CELL_ADDRESS,
+    Opcode,
 )
-from translator_excpetions import InvalidArgumentError, TranslatorError
+from translator_excpetions import InvalidArgumentCountError, InvalidArgumentError, NoTokenError
 from translator_token import Token, TokenType
 
 # Regular expressions for different types of tokens
@@ -27,14 +29,14 @@ def remove_comments(text: str) -> str:
     return re.sub(COMMENT_REGEX, "", text)
 
 
-def write_file(filename: str, code: List[str]):
+def write_file(filename: str, code: list[str]):
     open(filename, "w").write("\n".join(code))
 
 
-def read_file(filename: str) -> List[str]:
+def read_file(filename: str) -> list[str]:
     """Read the contents of a file and return them as a list of lines."""
-    file = open(filename, "r")
-    code_lines: List[str] = []
+    file = open(filename)
+    code_lines: list[str] = []
     for line in file:
         line = remove_comments(line).strip()
         if not line:
@@ -43,19 +45,20 @@ def read_file(filename: str) -> List[str]:
     return code_lines
 
 
-def replace_quoted_strings(line: str) -> Tuple[str, dict]:
+def replace_quoted_strings(line: str) -> tuple[str, dict]:
     string_placeholders = {}
     placeholder_index = 0
     matches = list(re.finditer(STRING_REGEX, line))
     for match in matches:
         placeholder = f"__STRING_PLACEHOLDER_{placeholder_index}__"
-        string_placeholders[placeholder] = match.group(0).replace('"', "").replace("\\0", chr(0))
+        string_placeholders[placeholder] = match.group(
+            0).replace('"', "").replace("\\0", chr(0))
         line = line.replace(match.group(0), placeholder, 1)
         placeholder_index += 1
     return line, string_placeholders
 
 
-def process_token(token: str, string_placeholders: dict, tokens: List[Token]):
+def process_token(token: str, string_placeholders: dict, tokens: list[Token]):
     if token in string_placeholders:
         tokens.append(Token(TokenType.STRING, string_placeholders[token]))
     elif re.match(REGISTER_REGEX, token):
@@ -73,9 +76,9 @@ def process_token(token: str, string_placeholders: dict, tokens: List[Token]):
             tokens.append(Token(TokenType.INSTRUCTION, token))
 
 
-def tokenize_line(line) -> List[Token]:
+def tokenize_line(line) -> list[Token]:
     """Tokenize a single line of code."""
-    tokens: List[Token] = []
+    tokens: list[Token] = []
 
     line, string_placeholders = replace_quoted_strings(line)
 
@@ -86,7 +89,7 @@ def tokenize_line(line) -> List[Token]:
     return tokens
 
 
-def tokenize(code: List[str]) -> List[List[Token]]:
+def tokenize(code: list[str]) -> list[list[Token]]:
     """Tokenize a list of code lines."""
     result = []
     for line in code:
@@ -96,7 +99,7 @@ def tokenize(code: List[str]) -> List[List[Token]]:
     return result
 
 
-def get_data_section(token_line: List[List[Token]]) -> List[List[Token]]:
+def get_data_section(token_line: list[list[Token]]) -> list[list[Token]]:
     """Get the data section from the given tokens."""
     data_section_lines = []
     is_data_section = False
@@ -113,7 +116,7 @@ def get_data_section(token_line: List[List[Token]]) -> List[List[Token]]:
     return data_section_lines
 
 
-def get_text_section(token_line: List[List[Token]]) -> List[List[Token]]:
+def get_text_section(token_line: list[list[Token]]) -> list[list[Token]]:
     text_section_lines = []
     is_text_section = False
     for line in token_line:
@@ -129,7 +132,7 @@ def get_text_section(token_line: List[List[Token]]) -> List[List[Token]]:
     return text_section_lines
 
 
-def get_all_labels(token_line: List[List[Token]]) -> List[Token]:
+def get_all_labels(token_line: list[list[Token]]) -> list[Token]:
     """Get all labels from the given tokenized lines."""
     labels = []
     for line in token_line:
@@ -138,7 +141,7 @@ def get_all_labels(token_line: List[List[Token]]) -> List[Token]:
     return labels
 
 
-def get_data_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
+def get_data_labels_mapping(token_lines: list[list[Token]]) -> dict[str, int]:
     mapping = {"in": INPUT_CELL_ADDRESS, "out": OUTPUT_CELL_ADDRESS}
     current_address = DATA_MEMORY_BEGIN_ADDRESS
 
@@ -152,14 +155,15 @@ def get_data_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
             for token in line:
                 if token.get_type() == TokenType.STRING:
                     # Increment the current_address by the length of the string
-                    current_address += len(token.get_string_value().strip('"').replace("\\0", ""))
+                    current_address += len(
+                        token.get_string_value().strip('"').replace("\\0", ""))
                 elif token.get_type() in [TokenType.NUMBER, TokenType.LABEL]:
                     current_address += 1
     print(mapping)
     return mapping
 
 
-def get_text_labels_mapping(token_lines: List[List[Token]]) -> Dict[str, int]:
+def get_text_labels_mapping(token_lines: list[list[Token]]) -> dict[str, int]:
     mapping = {}
     instruction_index = INSTRUCTION_MEMORY_BEGIN_ADDRESS
 
@@ -188,9 +192,9 @@ def create_binary_command(opcode: int, rb: int, arg1: int, arg2: int, flag: int)
     return f"{opcode:07b}{rb:04b}{arg1:04b}{arg2:016b}{flag:01b}"
 
 
-def convert_math_command_to_binary(opcode: int, tokens: List[Token], data_labels: Dict[str, int]) -> str:
+def convert_math_command_to_binary(opcode: int, tokens: list[Token], data_labels: dict[str, int]) -> str:
     if len(tokens) != 3:
-        raise TranslatorError("Invalid arguments count: expected 3")
+        raise InvalidArgumentCountError([3])
     rb = tokens[0]
     if rb.get_type() != TokenType.REGISTER:
         raise InvalidArgumentError("rb", ["register"])
@@ -218,9 +222,9 @@ def convert_math_command_to_binary(opcode: int, tokens: List[Token], data_labels
     return create_binary_command(opcode, rb_value, r1_value, r2_value, sub_flag)
 
 
-def convert_branch_command_to_binary(opcode: int, tokens: List[Token], text_label: dict[str, int]) -> str:
+def convert_branch_command_to_binary(opcode: int, tokens: list[Token], text_label: dict[str, int]) -> str:
     if len(tokens) not in [1, 3]:
-        raise TranslatorError("Invalid arguments for branch command: expected 3 or 1")
+        raise InvalidArgumentCountError([1, 3])
 
     rb = tokens[0]
 
@@ -240,12 +244,18 @@ def convert_branch_command_to_binary(opcode: int, tokens: List[Token], text_labe
     if r2.get_type() != TokenType.LABEL:
         raise InvalidArgumentError("rb", ["label"])
 
-    return create_binary_command(opcode, rb.get_int_value(), r1.get_int_value(), text_label[r2.get_string_value()], 0)
+    return create_binary_command(
+        opcode,
+        rb.get_int_value(),
+        r1.get_int_value(),
+        text_label[r2.get_string_value()],
+        0,
+    )
 
 
-def convert_memory_command_to_binary(opcode: int, tokens: List[Token]) -> str:
+def convert_memory_command_to_binary(opcode: int, tokens: list[Token]) -> str:
     if len(tokens) != 2:
-        raise TranslatorError("Invalid arguments count: expected 2")
+        raise InvalidArgumentCountError([2])
 
     # Read destination register argument
     rb_t = tokens[0]
@@ -274,27 +284,37 @@ def convert_no_args_command_to_binary(opcode: int) -> str:
     return create_binary_command(opcode, 0, 0, 0, 0)
 
 
-def convert_tokens_to_binary(tokens: List[Token], data_labels: Dict[str, int], text_label: Dict[str, int]) -> str:
-    if len(tokens) == 0:
-        raise TranslatorError("No tokens provided")
-
+def _find_first_instruction(tokens: list[Token]) -> int:
     for i, token in enumerate(tokens):
         if token.get_type() == TokenType.INSTRUCTION:
-            opcode = Opcode.get_opcode_by_mnemonic(token.get_string_value())
-            if opcode.is_mathlog():
-                return convert_math_command_to_binary(opcode.get_code(), tokens[i + 1 :], data_labels)
-            elif opcode.is_branch():
-                return convert_branch_command_to_binary(opcode.get_code(), tokens[i + 1 :], text_label)
-            elif opcode.is_no_args():
-                return convert_no_args_command_to_binary(opcode.get_code())
-            elif opcode.is_memory():
-                return convert_memory_command_to_binary(opcode.get_code(), tokens[i + 1 :])
+            return i
+    return -1
+
+
+def convert_tokens_to_binary(tokens: list[Token], data_labels: dict[str, int], text_label: dict[str, int]) -> str:
+    if len(tokens) == 0:
+        raise NoTokenError()
+
+    i = _find_first_instruction(tokens)
+    if i <  0:
+        return ""
+    token = tokens[i]
+
+    opcode = Opcode.get_opcode_by_mnemonic(token.get_string_value())
+    if opcode.is_mathlog():
+        return convert_math_command_to_binary(opcode.get_code(), tokens[i + 1:], data_labels)
+    if opcode.is_branch():
+        return convert_branch_command_to_binary(opcode.get_code(), tokens[i + 1:], text_label)
+    if opcode.is_no_args():
+        return convert_no_args_command_to_binary(opcode.get_code())
+    if opcode.is_memory():
+        return convert_memory_command_to_binary(opcode.get_code(), tokens[i + 1:])
     return ""
 
 
-def convert_data_tokens_to_binary(tokens: List[Token]) -> List[str]:
+def convert_data_tokens_to_binary(tokens: list[Token]) -> list[str]:
     if len(tokens) == 0:
-        raise TranslatorError("No tokens provided")
+        raise NoTokenError()
     result = []
     for token in tokens:
         if token.get_type() == TokenType.NUMBER:
@@ -316,7 +336,8 @@ def main(source: str, target_code: str, target_data: str):
 
     print("-- Text section --")
     for i, token in enumerate(tokenized):
-        binary = convert_tokens_to_binary(token, data_label_mapping, text_label_mapping)
+        binary = convert_tokens_to_binary(
+            token, data_label_mapping, text_label_mapping)
         if binary:
             print(f"{binary} {code[i]}")
             output.append(binary)
@@ -327,13 +348,13 @@ def main(source: str, target_code: str, target_data: str):
     for token_line in get_data_section(tokenized):
         converted = convert_data_tokens_to_binary(token_line)
         for line in converted:
-            # print(line, chr(int(line, 2)))
             data_output.append(line)
     write_file(target_data, data_output)
 
 
 if __name__ == "__main__":
-    assert len(sys.argv) == 4, "Usage: python translator.py  <input_file>  <code_output>  <data_output>"
+    assert len(
+        sys.argv) == 4, "Usage: python translator.py  <input_file>  <code_output>  <data_output>"
 
     source = sys.argv[1]
     file_code_output = sys.argv[2]

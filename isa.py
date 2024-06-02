@@ -114,4 +114,9 @@ class Opcode(Enum):
         for opcode in Opcode:
             if value == opcode.value[0]:
                 return opcode
-        raise ValueError(f"No such opcode: {value}")
+        raise OpcodeNotFoundError(value)
+
+
+class OpcodeNotFoundError(Exception):
+    def __init__(self, value: str):
+        super().__init__(f"No such opcode:  {value}")

@@ -51,8 +51,7 @@ def replace_quoted_strings(line: str) -> tuple[str, dict]:
     matches = list(re.finditer(STRING_REGEX, line))
     for match in matches:
         placeholder = f"__STRING_PLACEHOLDER_{placeholder_index}__"
-        string_placeholders[placeholder] = match.group(
-            0).replace('"', "").replace("\\0", chr(0))
+        string_placeholders[placeholder] = match.group(0).replace('"', "").replace("\\0", chr(0))
         line = line.replace(match.group(0), placeholder, 1)
         placeholder_index += 1
     return line, string_placeholders
@@ -155,8 +154,7 @@ def get_data_labels_mapping(token_lines: list[list[Token]]) -> dict[str, int]:
             for token in line:
                 if token.get_type() == TokenType.STRING:
                     # Increment the current_address by the length of the string
-                    current_address += len(
-                        token.get_string_value().strip('"').replace("\\0", ""))
+                    current_address += len(token.get_string_value().strip('"').replace("\\0", ""))
                 elif token.get_type() in [TokenType.NUMBER, TokenType.LABEL]:
                     current_address += 1
     print(mapping)
@@ -296,19 +294,19 @@ def convert_tokens_to_binary(tokens: list[Token], data_labels: dict[str, int], t
         raise NoTokenError()
 
     i = _find_first_instruction(tokens)
-    if i <  0:
+    if i < 0:
         return ""
     token = tokens[i]
 
     opcode = Opcode.get_opcode_by_mnemonic(token.get_string_value())
     if opcode.is_mathlog():
-        return convert_math_command_to_binary(opcode.get_code(), tokens[i + 1:], data_labels)
+        return convert_math_command_to_binary(opcode.get_code(), tokens[i + 1 :], data_labels)
     if opcode.is_branch():
-        return convert_branch_command_to_binary(opcode.get_code(), tokens[i + 1:], text_label)
+        return convert_branch_command_to_binary(opcode.get_code(), tokens[i + 1 :], text_label)
     if opcode.is_no_args():
         return convert_no_args_command_to_binary(opcode.get_code())
     if opcode.is_memory():
-        return convert_memory_command_to_binary(opcode.get_code(), tokens[i + 1:])
+        return convert_memory_command_to_binary(opcode.get_code(), tokens[i + 1 :])
     return ""
 
 
@@ -336,8 +334,7 @@ def main(source: str, target_code: str, target_data: str):
 
     print("-- Text section --")
     for i, token in enumerate(tokenized):
-        binary = convert_tokens_to_binary(
-            token, data_label_mapping, text_label_mapping)
+        binary = convert_tokens_to_binary(token, data_label_mapping, text_label_mapping)
         if binary:
             print(f"{binary} {code[i]}")
             output.append(binary)
@@ -353,8 +350,7 @@ def main(source: str, target_code: str, target_data: str):
 
 
 if __name__ == "__main__":
-    assert len(
-        sys.argv) == 4, "Usage: python translator.py  <input_file>  <code_output>  <data_output>"
+    assert len(sys.argv) == 4, "Usage: python translator.py  <input_file>  <code_output>  <data_output>"
 
     source = sys.argv[1]
     file_code_output = sys.argv[2]

@@ -50,8 +50,8 @@ class ControlUnit:
             instruction (str): The instruction string.
         """
         self.operands = int(instruction[7:-1], 2)
-        self.datapath.cu_data_out = int(instruction[7 + 4 + 4: -1], 2)
-        self.datapath.cu_address_out = int(instruction[7 + 4 + 4: -1], 2)
+        self.datapath.cu_data_out = int(instruction[7 + 4 + 4 : -1], 2)
+        self.datapath.cu_address_out = int(instruction[7 + 4 + 4 : -1], 2)
 
     def decode_instruction(self, instruction: str) -> None:
         """
@@ -102,8 +102,7 @@ class ControlUnit:
             case Signal.SEL_MPC_ZERO:
                 self.mpc = 0
             case _:
-                raise MachineRuntimeError(
-                    "invalid mpc signal: " + self.mpc_mux)
+                raise MachineRuntimeError("invalid mpc signal: " + self.mpc_mux)
 
     def get_current_instruction(self):
         """
@@ -260,24 +259,21 @@ class ControlUnit:
             index = int(signal) - int(Signal.LATCH_REG0)
         else:
             index = self.get_operand(0)
-        self.datapath.register_file.latch_reg_n(
-            index, self.datapath.get_register_file_input())
+        self.datapath.register_file.latch_reg_n(index, self.datapath.get_register_file_input())
 
     def sel_left_reg(self):
         if 20 <= self.ir <= 32:
             index = self.get_operand(0)
         else:
             index = self.get_operand(1)
-        self.datapath.register_file.sel_left_reg(
-            Signal(int(Signal.SEL_L_REG0) + index))
+        self.datapath.register_file.sel_left_reg(Signal(int(Signal.SEL_L_REG0) + index))
 
     def sel_right_reg(self):
         if 20 <= self.ir <= 32:
             index = self.get_operand(1)
         else:
             index = self.get_operand(2)
-        self.datapath.register_file.sel_right_reg(
-            Signal(int(Signal.SEL_R_REG0) + index))
+        self.datapath.register_file.sel_right_reg(Signal(int(Signal.SEL_R_REG0) + index))
 
     def twice_inc_if_z(self):
         if self.alu.neg_zero == 0b01:
